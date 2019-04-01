@@ -33,6 +33,22 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
+sourceSets {
+	main {
+		java {
+			srcDir 'src/main/java'
+		}
+		resources {
+			srcDir 'src/main/resources'
+		}
+	}
+	api {
+		java {
+			srcDir 'src/api/java'
+		}
+	}
+}
+
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
@@ -75,11 +91,54 @@ processResources {
         exclude 'mcmod.info'
     }
 	
+	// Put Access Transformer in the META-INF folder
 	rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
+// Access Transformer
 jar {
 	manifest {
 	    attributes 'FMLAT': 'subatomicscience_at.cfg'
 	}
 }
+
+// -----------
+// extra jars (based on buildcraft 6.1.x's build.gradle)
+// https://github.com/BuildCraft/BuildCraft/blob/6.1.x/build.gradle
+// -----------
+
+// source jar
+task sourceJar(type: Jar) {
+	from sourceSets.main.allSource
+	from sourceSets.api.allSource
+	classifier = 'sources'
+}
+
+// javadoc for api
+javadoc {
+	source += sourceSets.api.allSource
+}
+
+// javadoc jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from 'build/docs/javadoc'
+}
+
+// api jar
+task apiJar(type: Jar) {
+	from sourceSets.api.output
+	classifier = 'api'
+}
+
+jar {
+	from sourceSets.api.output
+}
+
+checkstyle {
+	configFile = file('guidelines/subatomicscience.checkstyle')
+}
+
+checkstyleApi.exclude 'cofh/**'
+
+build.dependsOn sourceJar, javadocJar, apiJar
