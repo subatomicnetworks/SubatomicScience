@@ -19,7 +19,7 @@ public class SubatomicScience {
     public SubatomicScience instance;
 
     @SidedProxy(clientSide = "com.subatomicnetworks.subatomicscience.proxy.ClientProxy", serverSide = "com.subatomicnetworks.subatomicscience.proxy.ServerProxy")
-    public IProxy proxy;
+    public static IProxy proxy;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
