@@ -118,7 +118,7 @@ jar {
 // -----------
 
 // source jar
-sourceJar {
+task sourceJar_new(type: Jar) {
 	from sourceSets.main.allSource
 	from sourceSets.api.allSource
 	classifier = 'sources'
@@ -151,4 +151,4 @@ checkstyle {
 
 checkstyleApi.exclude 'cofh/**'
 
-build.dependsOn sourceJar, javadocJar, apiJar
+build.dependsOn sourceJar_new, javadocJar, apiJar
