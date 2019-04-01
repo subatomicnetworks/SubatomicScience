@@ -23,4 +23,17 @@ public class SSBlock extends Block {
 
         SSRegistry.registerBlock(this);
     }
+
+    public SSBlock(String name, Material material, SoundType sound, float hardness) {
+        super(material);
+
+        this.setSoundType(sound);
+        this.setHardness(hardness);
+        this.setUnlocalizedName(name);
+        this.setCreativeTab(SSTabs.mainTab);
+
+        this.setRegistryName(References.PREFIX + name);
+
+        SSRegistry.registerBlock(this);
+    }
 }
