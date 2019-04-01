@@ -1,0 +1,13 @@
+[
+{
+  "modid": "subatomicscience",
+  "name": "SubatomicScience",
+  "description": "A Minecraft tech mod about Subatomic Particles",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["HumanGamer", "ZephaniahNoah"],
+  "credits": "SubatomicNetworks for creating this mod.",
+  "logoFile": "",
+  "dependencies": []
+}
+]
