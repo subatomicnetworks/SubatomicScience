@@ -19,7 +19,6 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: "checkstyle"
 
 version = "0.0.1"
 group = "com.subatomicnetworks.subatomicscience" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -124,7 +123,7 @@ task sourceJar_new(type: Jar) {
 	classifier = 'sources'
 }
 
-// javadoc for api
+// add api to javadoc
 javadoc {
 	source += sourceSets.api.allSource
 }
@@ -144,11 +143,5 @@ task apiJar(type: Jar) {
 jar {
 	from sourceSets.api.output
 }
-
-checkstyle {
-	configFile = file('guidelines/subatomicscience.checkstyle')
-}
-
-checkstyleApi.exclude 'cofh/**'
 
 build.dependsOn sourceJar_new, javadocJar, apiJar
