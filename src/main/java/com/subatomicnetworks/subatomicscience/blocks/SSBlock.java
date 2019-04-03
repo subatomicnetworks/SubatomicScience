@@ -6,6 +6,8 @@ import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
 
 public class SSBlock extends Block {
 
@@ -35,5 +37,13 @@ public class SSBlock extends Block {
         this.setRegistryName(References.PREFIX + name);
 
         SSRegistry.registerBlock(this);
+    }
+
+    public TileEntity tileEntity(){
+        return null;
+    }
+
+    public TileEntitySpecialRenderer specialRenderer(){
+        return null;
     }
 }
