@@ -1,6 +1,7 @@
-package com.subatomicnetworks.subatomicscience.tileentities.pentapiston;
+package com.subatomicnetworks.subatomicscience.blocks;
 
-import com.subatomicnetworks.subatomicscience.blocks.SSBlock;
+import com.subatomicnetworks.subatomicscience.client.renderers.PentaPistonTESR;
+import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;

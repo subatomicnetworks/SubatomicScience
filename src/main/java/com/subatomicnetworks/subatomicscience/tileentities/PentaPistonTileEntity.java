@@ -1,4 +1,4 @@
-package com.subatomicnetworks.subatomicscience.tileentities.pentapiston;
+package com.subatomicnetworks.subatomicscience.tileentities;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;

@@ -2,7 +2,7 @@ package com.subatomicnetworks.subatomicscience.init;
 
 import com.subatomicnetworks.subatomicscience.SubatomicScience;
 import com.subatomicnetworks.subatomicscience.blocks.SSBlock;
-import com.subatomicnetworks.subatomicscience.tileentities.pentapiston.PentaPistonBlock;
+import com.subatomicnetworks.subatomicscience.blocks.PentaPistonBlock;
 
 public class SSBlocks {
 

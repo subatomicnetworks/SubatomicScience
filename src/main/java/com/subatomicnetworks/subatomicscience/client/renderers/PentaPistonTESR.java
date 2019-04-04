@@ -1,5 +1,6 @@
-package com.subatomicnetworks.subatomicscience.tileentities.pentapiston;
+package com.subatomicnetworks.subatomicscience.client.renderers;
 
+import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.init.Items;
