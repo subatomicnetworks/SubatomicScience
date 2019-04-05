@@ -3,16 +3,19 @@ package com.subatomicnetworks.subatomicscience.blocks;
 import com.subatomicnetworks.subatomicscience.References;
 import com.subatomicnetworks.subatomicscience.init.SSTabs;
 import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class SSBlock extends Block{
+import javax.annotation.Nullable;
 
-    public SSBlock(String name, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
+public class SSBlockContainer extends BlockContainer{
+
+    public SSBlockContainer(String name, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
         super(material);
 
         this.setSoundType(sound);
@@ -27,7 +30,7 @@ public class SSBlock extends Block{
         SSRegistry.registerBlock(this);
     }
 
-    public SSBlock(String name, Material material, SoundType sound, float hardness) {
+    public SSBlockContainer(String name, Material material, SoundType sound, float hardness) {
         super(material);
 
         this.setSoundType(sound);
@@ -45,6 +48,12 @@ public class SSBlock extends Block{
     }
 
     public TileEntitySpecialRenderer specialRenderer(){
+        return null;
+    }
+
+    @Nullable
+    @Override//?????????
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
         return null;
     }
 }

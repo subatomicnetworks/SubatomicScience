@@ -10,9 +10,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class SSBlock extends Block{
+public class SSBlockDirectional extends BlockDirectional {
 
-    public SSBlock(String name, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
+    public SSBlockDirectional(String name, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
         super(material);
 
         this.setSoundType(sound);
@@ -27,7 +27,7 @@ public class SSBlock extends Block{
         SSRegistry.registerBlock(this);
     }
 
-    public SSBlock(String name, Material material, SoundType sound, float hardness) {
+    public SSBlockDirectional(String name, Material material, SoundType sound, float hardness) {
         super(material);
 
         this.setSoundType(sound);

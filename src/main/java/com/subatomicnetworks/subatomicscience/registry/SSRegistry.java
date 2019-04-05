@@ -1,6 +1,9 @@
 package com.subatomicnetworks.subatomicscience.registry;
 
+import com.subatomicnetworks.subatomicscience.References;
+import com.subatomicnetworks.subatomicscience.blocks.PentaPistonBlock;
 import com.subatomicnetworks.subatomicscience.blocks.SSBlock;
+import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -27,7 +30,7 @@ public class SSRegistry {
         item.setRegistryName(item.getBlock().getRegistryName());
         SSRegistry.registerBlock(new BlockContainer(block, item));
         //No idea when this happens. It's supposed to happen during FMLPreInitializationEvent.
-        if(((SSBlock)block).tileEntity()!=null){
+        if(block instanceof SSBlock && ((SSBlock)block).tileEntity()!=null){
             GameRegistry.registerTileEntity(((SSBlock)block).tileEntity().getClass(),block.getRegistryName());
         }
     }
