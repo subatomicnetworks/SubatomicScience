@@ -3,6 +3,7 @@ package com.subatomicnetworks.subatomicscience.proxy;
 import com.subatomicnetworks.subatomicscience.blocks.SSBlock;
 import com.subatomicnetworks.subatomicscience.blocks.SSBlockContainer;
 import com.subatomicnetworks.subatomicscience.blocks.SSBlockDirectional;
+import com.subatomicnetworks.subatomicscience.client.renderers.PentaPistonTESR;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
 import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
 import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
@@ -25,6 +26,7 @@ public class ClientProxy extends CommonProxy {
         super.preInit(event);
         //This is nasty
         GameRegistry.registerTileEntity(PentaPistonTileEntity.class, SSBlocks.pentaPiston.getRegistryName());
+        ClientRegistry.bindTileEntitySpecialRenderer(PentaPistonTileEntity.class, new PentaPistonTESR());
         //GameRegistry.registerTileEntity(PentaPistonTileEntity.class, SSBlocks.pentaPistonSticky.getRegistryName());
     }
 
@@ -41,17 +43,9 @@ public class ClientProxy extends CommonProxy {
         for (SSRegistry.BlockContainer blockContainer : SSRegistry.getBlockList()) {
             Block block = blockContainer.getBlock();
             Item item = Item.getItemFromBlock(block);
-            if(block instanceof SSBlock && ((SSBlock)block).specialRenderer()!=null){
-                ClientRegistry.bindTileEntitySpecialRenderer(((SSBlock)block).tileEntity().getClass(), ((SSBlock)block).specialRenderer());
-            } else if(block instanceof SSBlockContainer && ((SSBlockContainer)block).specialRenderer()!=null){
-                ClientRegistry.bindTileEntitySpecialRenderer(((SSBlockContainer)block).tileEntity().getClass(), ((SSBlockContainer)block).specialRenderer());
-            } else if(block instanceof SSBlockDirectional && ((SSBlockDirectional)block).specialRenderer()!=null){
-                ClientRegistry.bindTileEntitySpecialRenderer(((SSBlockDirectional)block).tileEntity().getClass(), ((SSBlockDirectional)block).specialRenderer());
-            } else {
-                ModelResourceLocation model = new ModelResourceLocation(block.getRegistryName(), "inventory");
-                ModelLoader.registerItemVariants(item, model);
-                mesher.register(item, 0, model);
-            }
+            ModelResourceLocation model = new ModelResourceLocation(block.getRegistryName(), "inventory");
+            ModelLoader.registerItemVariants(item, model);
+            mesher.register(item, 0, model);
         }
 
         for (Item item : SSRegistry.getItemList()) {

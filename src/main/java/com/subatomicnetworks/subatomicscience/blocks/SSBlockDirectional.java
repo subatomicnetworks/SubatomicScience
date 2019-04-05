@@ -39,12 +39,4 @@ public class SSBlockDirectional extends BlockDirectional {
 
         SSRegistry.registerBlock(this);
     }
-
-    public TileEntity tileEntity(){
-        return null;
-    }
-
-    public TileEntitySpecialRenderer specialRenderer(){
-        return null;
-    }
 }

@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class SSBlockContainer extends BlockContainer{
+public abstract class SSBlockContainer extends BlockContainer{
 
     public SSBlockContainer(String name, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
         super(material);
@@ -41,19 +41,5 @@ public class SSBlockContainer extends BlockContainer{
         this.setRegistryName(References.PREFIX + name);
 
         SSRegistry.registerBlock(this);
-    }
-
-    public TileEntity tileEntity(){
-        return null;
-    }
-
-    public TileEntitySpecialRenderer specialRenderer(){
-        return null;
-    }
-
-    @Nullable
-    @Override//?????????
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return null;
     }
 }

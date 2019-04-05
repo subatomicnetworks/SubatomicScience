@@ -1,10 +1,12 @@
 package com.subatomicnetworks.subatomicscience.blocks;
 
 import com.google.common.collect.Lists;
+import com.subatomicnetworks.subatomicscience.client.renderers.PentaPistonTESR;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
 import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
 import com.subatomicnetworks.subatomicscience.util.PentaPistonStructureHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.EnumPushReaction;
@@ -14,6 +16,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +38,7 @@ import java.util.List;
 
 public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEntityProvider {
 
-    public static final PropertyBool EXTENDED = PropertyBool.create("extended");
+    public static final PropertyBool EXTENDED = BlockPistonBase.EXTENDED;
     protected static final AxisAlignedBB PISTON_BASE_EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.75D, 1.0D, 1.0D);
     protected static final AxisAlignedBB PISTON_BASE_WEST_AABB = new AxisAlignedBB(0.25D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
     protected static final AxisAlignedBB PISTON_BASE_SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.75D);
@@ -316,7 +319,7 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
         {
             if (pos.getY() <= worldIn.getHeight() - 1 && (facing != EnumFacing.UP || pos.getY() != worldIn.getHeight() - 1))
             {
-                if (block != SSBlocks.pentaPiston && block != SSBlocks.pentaPistonSticky)
+                if (block != Blocks.PISTON && block != Blocks.STICKY_PISTON && block != SSBlocks.pentaPiston && block != SSBlocks.pentaPistonSticky)
                 {
                     if (blockStateIn.getBlockHardness(worldIn, pos) == -1.0F)
                     {
@@ -350,6 +353,9 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
             return false;
         }
     }
+
+    //if (block == SSBlocks.pentaPiston && block == SSBlocks.pentaPistonSticky)
+
 
     private boolean doMove(World worldIn, BlockPos pos, EnumFacing direction, boolean extending)
     {

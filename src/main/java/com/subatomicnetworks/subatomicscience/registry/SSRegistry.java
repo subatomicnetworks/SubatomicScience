@@ -29,10 +29,7 @@ public class SSRegistry {
         ItemBlock item = new ItemBlock(block);
         item.setRegistryName(item.getBlock().getRegistryName());
         SSRegistry.registerBlock(new BlockContainer(block, item));
-        //No idea when this happens. It's supposed to happen during FMLPreInitializationEvent.
-        if(block instanceof SSBlock && ((SSBlock)block).tileEntity()!=null){
-            GameRegistry.registerTileEntity(((SSBlock)block).tileEntity().getClass(),block.getRegistryName());
-        }
+        //TODO: Maybe register SSTileEntities
     }
 
     public static void registerItem(Item item) {
