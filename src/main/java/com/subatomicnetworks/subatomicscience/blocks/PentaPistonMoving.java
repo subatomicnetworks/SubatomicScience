@@ -37,7 +37,7 @@ public class PentaPistonMoving extends SSBlockContainer {
 
     public PentaPistonMoving()
     {
-        super("penta_piston_moving",Material.PISTON, SoundType.STONE,-1.0F);
+        super("penta_piston_moving",false,Material.PISTON, SoundType.STONE,-1.0F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, PentaPistonExtension.EnumPistonType.DEFAULT));
     }
 

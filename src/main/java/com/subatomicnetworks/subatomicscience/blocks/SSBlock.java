@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class SSBlock extends Block{
 
-    public SSBlock(String name, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
+    public SSBlock(String name, boolean registerItem, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
         super(material);
 
         this.setSoundType(sound);
@@ -24,10 +24,10 @@ public class SSBlock extends Block{
 
         this.setRegistryName(References.PREFIX + name);
 
-        SSRegistry.registerBlock(this);
+        SSRegistry.registerBlock(this,registerItem);
     }
 
-    public SSBlock(String name, Material material, SoundType sound, float hardness) {
+    public SSBlock(String name, boolean registerItem, Material material, SoundType sound, float hardness) {
         super(material);
 
         this.setSoundType(sound);
@@ -37,6 +37,6 @@ public class SSBlock extends Block{
 
         this.setRegistryName(References.PREFIX + name);
 
-        SSRegistry.registerBlock(this);
+        SSRegistry.registerBlock(this,registerItem);
     }
 }

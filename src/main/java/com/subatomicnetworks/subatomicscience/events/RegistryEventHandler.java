@@ -28,12 +28,12 @@ public class RegistryEventHandler {
 
         for (SSRegistry.BlockContainer blockContainer : SSRegistry.getBlockList()) {
             ItemBlock item = blockContainer.getItem();
-            event.getRegistry().register(item);
+            if(item != null)
+                event.getRegistry().register(item);
         }
 
         for (Item item : SSRegistry.getItemList()) {
             event.getRegistry().register(item);
         }
     }
-
 }

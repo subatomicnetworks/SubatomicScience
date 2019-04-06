@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class SSBlockDirectional extends BlockDirectional {
 
-    public SSBlockDirectional(String name, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
+    public SSBlockDirectional(String name, boolean registerItem, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
         super(material);
 
         this.setSoundType(sound);
@@ -24,10 +24,10 @@ public class SSBlockDirectional extends BlockDirectional {
 
         this.setRegistryName(References.PREFIX + name);
 
-        SSRegistry.registerBlock(this);
+        SSRegistry.registerBlock(this,registerItem);
     }
 
-    public SSBlockDirectional(String name, Material material, SoundType sound, float hardness) {
+    public SSBlockDirectional(String name, boolean registerItem, Material material, SoundType sound, float hardness) {
         super(material);
 
         this.setSoundType(sound);
@@ -37,6 +37,6 @@ public class SSBlockDirectional extends BlockDirectional {
 
         this.setRegistryName(References.PREFIX + name);
 
-        SSRegistry.registerBlock(this);
+        SSRegistry.registerBlock(this,registerItem);
     }
 }

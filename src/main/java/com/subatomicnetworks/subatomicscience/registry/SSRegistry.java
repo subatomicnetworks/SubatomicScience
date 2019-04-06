@@ -25,11 +25,19 @@ public class SSRegistry {
         SSRegistry.registerBlock(new BlockContainer(block, item));
     }
 
-    public static void registerBlock(Block block) {
-        ItemBlock item = new ItemBlock(block);
-        item.setRegistryName(item.getBlock().getRegistryName());
-        SSRegistry.registerBlock(new BlockContainer(block, item));
+    public static void registerBlock(Block block, boolean registerItem) {
+        if(registerItem){
+            ItemBlock item = new ItemBlock(block);
+            item.setRegistryName(item.getBlock().getRegistryName());
+            SSRegistry.registerBlock(new BlockContainer(block, item));
+        } else {
+            SSRegistry.registerBlock(new BlockContainer(block, null));
+        }
         //TODO: Maybe register SSTileEntities
+    }
+
+    public static void registerBlock(Block block) {
+        SSRegistry.registerBlock(block,true);
     }
 
     public static void registerItem(Item item) {

@@ -53,7 +53,7 @@ public class PentaPistonExtension extends SSBlockDirectional {
 
     public PentaPistonExtension()
     {
-        super("penta_piston_extension",Material.PISTON,SoundType.STONE,0.5F);
+        super("penta_piston_extension",false, Material.PISTON,SoundType.STONE,0.5F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, PentaPistonExtension.EnumPistonType.DEFAULT).withProperty(SHORT, Boolean.valueOf(false)));
     }
 

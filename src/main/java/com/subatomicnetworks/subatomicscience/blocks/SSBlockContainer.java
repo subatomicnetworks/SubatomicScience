@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 
 public abstract class SSBlockContainer extends BlockContainer{
 
-    public SSBlockContainer(String name, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
+    public SSBlockContainer(String name, boolean registerItem, Material material, SoundType sound, float hardness, float resistance, String toolName, int toolLevel) {
         super(material);
 
         this.setSoundType(sound);
@@ -27,10 +27,10 @@ public abstract class SSBlockContainer extends BlockContainer{
 
         this.setRegistryName(References.PREFIX + name);
 
-        SSRegistry.registerBlock(this);
+        SSRegistry.registerBlock(this,registerItem);
     }
 
-    public SSBlockContainer(String name, Material material, SoundType sound, float hardness) {
+    public SSBlockContainer(String name, boolean registerItem, Material material, SoundType sound, float hardness) {
         super(material);
 
         this.setSoundType(sound);
@@ -40,6 +40,6 @@ public abstract class SSBlockContainer extends BlockContainer{
 
         this.setRegistryName(References.PREFIX + name);
 
-        SSRegistry.registerBlock(this);
+        SSRegistry.registerBlock(this,registerItem);
     }
 }

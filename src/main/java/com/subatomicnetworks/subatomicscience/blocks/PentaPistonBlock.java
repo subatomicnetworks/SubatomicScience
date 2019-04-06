@@ -1,7 +1,6 @@
 package com.subatomicnetworks.subatomicscience.blocks;
 
 import com.google.common.collect.Lists;
-import com.subatomicnetworks.subatomicscience.client.renderers.PentaPistonTESR;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
 import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
 import com.subatomicnetworks.subatomicscience.util.PentaPistonStructureHelper;
@@ -16,7 +15,6 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,7 +48,7 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
 
     public PentaPistonBlock(String name, boolean isSticky)
     {
-        super(name, Material.PISTON, SoundType.STONE, 0.5f);
+        super(name,true, Material.PISTON, SoundType.STONE, 0.5f);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(EXTENDED, Boolean.valueOf(false)));
         this.isSticky = isSticky;
     }

@@ -1,0 +1,8 @@
+{
+    "parent": "subatomicscience:block/penta_piston",
+    "textures": {
+        "bottom": "blocks/piston_bottom",
+        "side": "blocks/piston_side",
+        "platform": "blocks/piston_top_normal"
+    }
+}
