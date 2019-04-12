@@ -1,7 +1,11 @@
 package com.subatomicnetworks.subatomicscience.blocks;
 
-import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
+import com.subatomicnetworks.subatomicscience.Reference;
+import com.subatomicnetworks.subatomicscience.init.SSTabs;
+import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
+import com.subatomicnetworks.subatomicscience.tiles.TilePentaPiston;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -31,14 +35,22 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class PentaPistonMoving extends SSBlockContainer {
-    public static final PropertyDirection FACING = PentaPistonExtension.FACING;
-    public static final PropertyEnum<PentaPistonExtension.EnumPistonType> TYPE = PentaPistonExtension.TYPE;
+public class BlockPentaPistonMoving extends BlockContainer {
+    public static final PropertyDirection FACING = BlockPentaPistonExtension.FACING;
+    public static final PropertyEnum<BlockPentaPistonExtension.EnumPistonType> TYPE = BlockPentaPistonExtension.TYPE;
 
-    public PentaPistonMoving()
+    public BlockPentaPistonMoving(String name)
     {
-        super("penta_piston_moving",false,Material.PISTON, SoundType.STONE,-1.0F);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, PentaPistonExtension.EnumPistonType.DEFAULT));
+        super(Material.PISTON);
+        this.setSoundType(SoundType.STONE);
+        this.setHardness(-1.0F);
+        this.setUnlocalizedName(name);
+        this.setCreativeTab(SSTabs.mainTab);
+
+        this.setRegistryName(Reference.PREFIX + name);
+
+        SSRegistry.registerBlock(this, false);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, BlockPentaPistonExtension.EnumPistonType.DEFAULT));
     }
 
     /**
@@ -52,7 +64,7 @@ public class PentaPistonMoving extends SSBlockContainer {
 
     public static TileEntity createTilePiston(IBlockState blockStateIn, EnumFacing facingIn, boolean extendingIn, boolean shouldHeadBeRenderedIn)
     {
-        return new PentaPistonTileEntity(blockStateIn, facingIn, extendingIn, shouldHeadBeRenderedIn);
+        return new TilePentaPiston(blockStateIn, facingIn, extendingIn, shouldHeadBeRenderedIn);
     }
 
     /**
@@ -62,9 +74,9 @@ public class PentaPistonMoving extends SSBlockContainer {
     {
         TileEntity tileentity = worldIn.getTileEntity(pos);
 
-        if (tileentity instanceof PentaPistonTileEntity)
+        if (tileentity instanceof TilePentaPiston)
         {
-            ((PentaPistonTileEntity)tileentity).clearPistonTileEntity();
+            ((TilePentaPiston)tileentity).clearPistonTileEntity();
         }
         else
         {
@@ -96,7 +108,7 @@ public class PentaPistonMoving extends SSBlockContainer {
         BlockPos blockpos = pos.offset(((EnumFacing)state.getValue(FACING)).getOpposite());
         IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-        if (iblockstate.getBlock() instanceof PentaPistonBlock && ((Boolean)iblockstate.getValue(PentaPistonBlock.EXTENDED)).booleanValue())
+        if (iblockstate.getBlock() instanceof BlockPentaPiston && ((Boolean)iblockstate.getValue(BlockPentaPiston.EXTENDED)).booleanValue())
         {
             worldIn.setBlockToAir(blockpos);
         }
@@ -105,11 +117,15 @@ public class PentaPistonMoving extends SSBlockContainer {
     /**
      * Used to determine ambient occlusion and culling when rebuilding chunks for render
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean isFullCube(IBlockState state)
     {
         return false;
@@ -146,11 +162,11 @@ public class PentaPistonMoving extends SSBlockContainer {
     {
         if (false && !worldIn.isRemote) // Forge: Noop this out
         {
-            PentaPistonTileEntity PentaPistonTileEntity = this.getTilePistonAt(worldIn, pos);
+            TilePentaPiston TilePentaPiston = this.getTilePistonAt(worldIn, pos);
 
-            if (PentaPistonTileEntity != null)
+            if (TilePentaPiston != null)
             {
-                IBlockState iblockstate = PentaPistonTileEntity.getPistonState();
+                IBlockState iblockstate = TilePentaPiston.getPistonState();
                 iblockstate.getBlock().dropBlockAsItem(worldIn, pos, iblockstate, 0);
             }
         }
@@ -161,6 +177,8 @@ public class PentaPistonMoving extends SSBlockContainer {
      * Ray traces through the blocks collision from start vector to end vector returning a ray trace hit.
      */
     @Nullable
+    @Override
+    @SuppressWarnings("deprecation")
     public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end)
     {
         return null;
@@ -171,6 +189,8 @@ public class PentaPistonMoving extends SSBlockContainer {
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!worldIn.isRemote)
@@ -180,38 +200,46 @@ public class PentaPistonMoving extends SSBlockContainer {
     }
 
     @Nullable
+    @Override
+    @SuppressWarnings("deprecation")
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-        PentaPistonTileEntity PentaPistonTileEntity = this.getTilePistonAt(worldIn, pos);
-        return PentaPistonTileEntity == null ? null : PentaPistonTileEntity.getAABB(worldIn, pos);
+        TilePentaPiston TilePentaPiston = this.getTilePistonAt(worldIn, pos);
+        return TilePentaPiston == null ? null : TilePentaPiston.getAABB(worldIn, pos);
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState)
     {
-        PentaPistonTileEntity PentaPistonTileEntity = this.getTilePistonAt(worldIn, pos);
+        TilePentaPiston TilePentaPiston = this.getTilePistonAt(worldIn, pos);
 
-        if (PentaPistonTileEntity != null)
+        if (TilePentaPiston != null)
         {
-            PentaPistonTileEntity.addCollissionAABBs(worldIn, pos, entityBox, collidingBoxes, entityIn);
+            TilePentaPiston.addCollissionAABBs(worldIn, pos, entityBox, collidingBoxes, entityIn);
         }
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        PentaPistonTileEntity PentaPistonTileEntity = this.getTilePistonAt(source, pos);
-        return PentaPistonTileEntity != null ? PentaPistonTileEntity.getAABB(source, pos) : FULL_BLOCK_AABB;
+        TilePentaPiston TilePentaPiston = this.getTilePistonAt(source, pos);
+        return TilePentaPiston != null ? TilePentaPiston.getAABB(source, pos) : FULL_BLOCK_AABB;
     }
 
     /**
-     * Gets a PentaPistonTileEntity at the given position. Returns null if the tile is not an instance of PentaPistonTileEntity.
+     * Gets a TilePentaPiston at the given position. Returns null if the tile is not an instance of TilePentaPiston.
      */
     @Nullable
-    private PentaPistonTileEntity getTilePistonAt(IBlockAccess iBlockAccessIn, BlockPos blockPosIn)
+    private TilePentaPiston getTilePistonAt(IBlockAccess iBlockAccessIn, BlockPos blockPosIn)
     {
         TileEntity tileentity = iBlockAccessIn.getTileEntity(blockPosIn);
-        return tileentity instanceof PentaPistonTileEntity ? (PentaPistonTileEntity)tileentity : null;
+        return tileentity instanceof TilePentaPiston ? (TilePentaPiston)tileentity : null;
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
         return ItemStack.EMPTY;
@@ -220,15 +248,19 @@ public class PentaPistonMoving extends SSBlockContainer {
     /**
      * Convert the given metadata into a BlockState for this Block
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(FACING, PentaPistonExtension.getFacing(meta)).withProperty(TYPE, (meta & 8) > 0 ? PentaPistonExtension.EnumPistonType.STICKY : PentaPistonExtension.EnumPistonType.DEFAULT);
+        return this.getDefaultState().withProperty(FACING, BlockPentaPistonExtension.getFacing(meta)).withProperty(TYPE, (meta & 8) > 0 ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT);
     }
 
     /**
      * Returns the blockstate with the given rotation from the passed blockstate. If inapplicable, returns the passed
      * blockstate.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState withRotation(IBlockState state, Rotation rot)
     {
         return state.withProperty(FACING, rot.rotate((EnumFacing)state.getValue(FACING)));
@@ -238,6 +270,8 @@ public class PentaPistonMoving extends SSBlockContainer {
      * Returns the blockstate with the given mirror of the passed blockstate. If inapplicable, returns the passed
      * blockstate.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
     {
         return state.withRotation(mirrorIn.toRotation((EnumFacing)state.getValue(FACING)));
@@ -251,7 +285,7 @@ public class PentaPistonMoving extends SSBlockContainer {
         int i = 0;
         i = i | ((EnumFacing)state.getValue(FACING)).getIndex();
 
-        if (state.getValue(TYPE) == PentaPistonExtension.EnumPistonType.STICKY)
+        if (state.getValue(TYPE) == BlockPentaPistonExtension.EnumPistonType.STICKY)
         {
             i |= 8;
         }
@@ -267,10 +301,10 @@ public class PentaPistonMoving extends SSBlockContainer {
     @Override
     public void getDrops(net.minecraft.util.NonNullList<net.minecraft.item.ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        PentaPistonTileEntity PentaPistonTileEntity = this.getTilePistonAt(world, pos);
-        if (PentaPistonTileEntity != null)
+        TilePentaPiston TilePentaPiston = this.getTilePistonAt(world, pos);
+        if (TilePentaPiston != null)
         {
-            IBlockState pushed = PentaPistonTileEntity.getPistonState();
+            IBlockState pushed = TilePentaPiston.getPistonState();
             drops.addAll(pushed.getBlock().getDrops(world, pos, pushed, fortune)); // use the old method until it gets removed, for backward compatibility
         }
     }
@@ -284,6 +318,8 @@ public class PentaPistonMoving extends SSBlockContainer {
      *
      * @return an approximation of the form of the given face
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
     {
         return BlockFaceShape.UNDEFINED;

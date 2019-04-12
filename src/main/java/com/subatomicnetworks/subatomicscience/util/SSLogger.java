@@ -3,12 +3,12 @@ package com.subatomicnetworks.subatomicscience.util;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
-public class MyLogger {
+public class SSLogger {
 
     private Logger logger;
     private boolean showName;
 
-    public MyLogger(Logger logger, boolean showName) {
+    public SSLogger(Logger logger, boolean showName) {
         this.logger = logger;
         this.showName = showName;
     }

@@ -1,8 +1,8 @@
-package com.subatomicnetworks.subatomicscience.tileentities;
+package com.subatomicnetworks.subatomicscience.tiles;
 
 import com.google.common.collect.Lists;
-import com.subatomicnetworks.subatomicscience.blocks.PentaPistonBlock;
-import com.subatomicnetworks.subatomicscience.blocks.PentaPistonExtension;
+import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPiston;
+import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPistonExtension;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class PentaPistonTileEntity extends TileEntity implements ITickable
+public class TilePentaPiston extends TileEntity implements ITickable
 {
     private IBlockState pistonState;
     private EnumFacing pistonFacing;
@@ -42,7 +42,7 @@ public class PentaPistonTileEntity extends TileEntity implements ITickable
     /** the progress in (de)extending */
     private float lastProgress;
 
-    public PentaPistonTileEntity(IBlockState pistonStateIn, EnumFacing pistonFacingIn, boolean extendingIn, boolean shouldHeadBeRenderedIn)
+    public TilePentaPiston(IBlockState pistonStateIn, EnumFacing pistonFacingIn, boolean extendingIn, boolean shouldHeadBeRenderedIn)
     {
         this.pistonState = pistonStateIn;
         this.pistonFacing = pistonFacingIn;
@@ -135,7 +135,7 @@ public class PentaPistonTileEntity extends TileEntity implements ITickable
 
     private IBlockState getCollisionRelatedBlockState()
     {
-        return !this.isExtending() && this.shouldPistonHeadBeRendered() ? SSBlocks.pentaPistonExtension.getDefaultState().withProperty(PentaPistonExtension.TYPE, this.pistonState.getBlock() == SSBlocks.pentaPistonSticky ? PentaPistonExtension.EnumPistonType.STICKY : PentaPistonExtension.EnumPistonType.DEFAULT).withProperty(PentaPistonExtension.FACING, this.pistonState.getValue(PentaPistonBlock.FACING)) : this.pistonState;
+        return !this.isExtending() && this.shouldPistonHeadBeRendered() ? SSBlocks.pentaPistonExtension.getDefaultState().withProperty(BlockPentaPistonExtension.TYPE, this.pistonState.getBlock() == SSBlocks.pentaPistonSticky ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT).withProperty(BlockPentaPistonExtension.FACING, this.pistonState.getValue(BlockPentaPiston.FACING)) : this.pistonState;
     }
 
     private void moveCollidedEntities(float p_184322_1_)
@@ -395,7 +395,7 @@ public class PentaPistonTileEntity extends TileEntity implements ITickable
     {
         if (!this.extending && this.shouldHeadBeRendered)
         {
-            this.pistonState.withProperty(PentaPistonBlock.EXTENDED, Boolean.valueOf(true)).addCollisionBoxToList(p_190609_1_, p_190609_2_, p_190609_3_, p_190609_4_, p_190609_5_, false);
+            this.pistonState.withProperty(BlockPentaPiston.EXTENDED, Boolean.valueOf(true)).addCollisionBoxToList(p_190609_1_, p_190609_2_, p_190609_3_, p_190609_4_, p_190609_5_, false);
         }
 
         EnumFacing enumfacing = MOVING_ENTITY.get();
@@ -407,7 +407,7 @@ public class PentaPistonTileEntity extends TileEntity implements ITickable
 
             if (this.shouldPistonHeadBeRendered())
             {
-                iblockstate = SSBlocks.pentaPistonExtension.getDefaultState().withProperty(PentaPistonExtension.FACING, this.pistonFacing).withProperty(PentaPistonExtension.SHORT, Boolean.valueOf(this.extending != 1.0F - this.progress < 0.25F));
+                iblockstate = SSBlocks.pentaPistonExtension.getDefaultState().withProperty(BlockPentaPistonExtension.FACING, this.pistonFacing).withProperty(BlockPentaPistonExtension.SHORT, Boolean.valueOf(this.extending != 1.0F - this.progress < 0.25F));
             }
             else
             {

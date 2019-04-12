@@ -3,6 +3,7 @@ package com.subatomicnetworks.subatomicscience.proxy;
 import com.subatomicnetworks.subatomicscience.SubatomicScience;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
 import com.subatomicnetworks.subatomicscience.init.SSItems;
+import com.subatomicnetworks.subatomicscience.init.SSTiles;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -15,6 +16,7 @@ public class CommonProxy implements IProxy {
 
         SSBlocks.initBlocks();
         SSItems.initItems();
+        SSTiles.initTiles();
     }
 
     @Override

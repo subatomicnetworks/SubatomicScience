@@ -1,7 +1,7 @@
 package com.subatomicnetworks.subatomicscience;
 
 import com.subatomicnetworks.subatomicscience.proxy.IProxy;
-import com.subatomicnetworks.subatomicscience.util.MyLogger;
+import com.subatomicnetworks.subatomicscience.util.SSLogger;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -10,10 +10,10 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = References.MODID, name = References.NAME, version = References.VERSION)
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class SubatomicScience {
     public static final boolean SHOW_LOG_NAME = true;
-    public static MyLogger logger;
+    public static SSLogger logger;
 
     @Instance
     public SubatomicScience instance;
@@ -23,7 +23,7 @@ public class SubatomicScience {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        SubatomicScience.logger = new MyLogger(event.getModLog(), SHOW_LOG_NAME);
+        SubatomicScience.logger = new SSLogger(event.getModLog(), SHOW_LOG_NAME);
 
         proxy.preInit(event);
     }

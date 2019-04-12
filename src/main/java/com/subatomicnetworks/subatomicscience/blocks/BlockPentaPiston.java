@@ -1,13 +1,13 @@
 package com.subatomicnetworks.subatomicscience.blocks;
 
 import com.google.common.collect.Lists;
+import com.subatomicnetworks.subatomicscience.Reference;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
-import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
+import com.subatomicnetworks.subatomicscience.init.SSTabs;
+import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
+import com.subatomicnetworks.subatomicscience.tiles.TilePentaPiston;
 import com.subatomicnetworks.subatomicscience.util.PentaPistonStructureHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockPistonBase;
-import net.minecraft.block.BlockSnow;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -34,7 +34,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEntityProvider {
+public class BlockPentaPiston extends BlockDirectional {
 
     public static final PropertyBool EXTENDED = BlockPistonBase.EXTENDED;
     protected static final AxisAlignedBB PISTON_BASE_EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.75D, 1.0D, 1.0D);
@@ -46,18 +46,31 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
     /** This piston is the sticky one? */
     private final boolean isSticky;
 
-    public PentaPistonBlock(String name, boolean isSticky)
+    public BlockPentaPiston(String name, boolean isSticky)
     {
-        super(name,true, Material.PISTON, SoundType.STONE, 0.5f);
+        super(Material.PISTON);
+        this.setSoundType(SoundType.STONE);
+        this.setHardness(0.5f);
+        this.setUnlocalizedName(name);
+        this.setCreativeTab(SSTabs.mainTab);
+
+        this.setRegistryName(Reference.PREFIX + name);
+
+        SSRegistry.registerBlock(this);
+
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(EXTENDED, Boolean.valueOf(false)));
         this.isSticky = isSticky;
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean causesSuffocation(IBlockState state)
     {
         return !((Boolean)state.getValue(EXTENDED)).booleanValue();
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         if (((Boolean)state.getValue(EXTENDED)).booleanValue())
@@ -88,11 +101,15 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
     /**
      * Determines if the block is solid enough on the top side to support other blocks, like redstone components.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean isTopSolid(IBlockState state)
     {
         return !((Boolean)state.getValue(EXTENDED)).booleanValue() || state.getValue(FACING) == EnumFacing.DOWN;
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState)
     {
         addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getBoundingBox(worldIn, pos));
@@ -101,6 +118,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
     /**
      * Used to determine ambient occlusion and culling when rebuilding chunks for render
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state)
     {
         return false;
@@ -109,6 +128,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
     /**
      * Called by ItemBlocks after a block is set in the world, to allow post-place logic
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
         worldIn.setBlockState(pos, state.withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
@@ -124,6 +145,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!worldIn.isRemote)
@@ -135,6 +158,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
     /**
      * Called after the block is set in the Chunk data, but before the Tile Entity is set
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
         if (!worldIn.isRemote && worldIn.getTileEntity(pos) == null)
@@ -147,6 +172,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
      * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
      * IBlockstate
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(EXTENDED, Boolean.valueOf(false));
@@ -205,6 +232,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
      * the Server, this may perform additional changes to the world, like pistons replacing the block with an extended
      * base. On the client, the update may involve replacing tile entities or effects such as sounds or particles
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param)
     {
         EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
@@ -239,13 +268,13 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
         {
             TileEntity tileentity1 = worldIn.getTileEntity(pos.offset(enumfacing));
 
-            if (tileentity1 instanceof PentaPistonTileEntity)
+            if (tileentity1 instanceof TilePentaPiston)
             {
-                ((PentaPistonTileEntity)tileentity1).clearPistonTileEntity();
+                ((TilePentaPiston)tileentity1).clearPistonTileEntity();
             }
 
-            worldIn.setBlockState(pos, SSBlocks.pentaPistonMoving.getDefaultState().withProperty(PentaPistonMoving.FACING, enumfacing).withProperty(PentaPistonMoving.TYPE, this.isSticky ? PentaPistonExtension.EnumPistonType.STICKY : PentaPistonExtension.EnumPistonType.DEFAULT), 3);
-            worldIn.setTileEntity(pos, PentaPistonMoving.createTilePiston(this.getStateFromMeta(param), enumfacing, false, true));
+            worldIn.setBlockState(pos, SSBlocks.pentaPistonMoving.getDefaultState().withProperty(BlockPentaPistonMoving.FACING, enumfacing).withProperty(BlockPentaPistonMoving.TYPE, this.isSticky ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT), 3);
+            worldIn.setTileEntity(pos, BlockPentaPistonMoving.createTilePiston(this.getStateFromMeta(param), enumfacing, false, true));
 
             if (this.isSticky)
             {
@@ -258,13 +287,13 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
                 {
                     TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
-                    if (tileentity instanceof PentaPistonTileEntity)
+                    if (tileentity instanceof TilePentaPiston)
                     {
-                        PentaPistonTileEntity PentaPistonTileEntity = (PentaPistonTileEntity)tileentity;
+                        TilePentaPiston TilePentaPiston = (TilePentaPiston)tileentity;
 
-                        if (PentaPistonTileEntity.getFacing() == enumfacing && PentaPistonTileEntity.isExtending())
+                        if (TilePentaPiston.getFacing() == enumfacing && TilePentaPiston.isExtending())
                         {
-                            PentaPistonTileEntity.clearPistonTileEntity();
+                            TilePentaPiston.clearPistonTileEntity();
                             flag1 = true;
                         }
                     }
@@ -286,6 +315,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
         return true;
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean isFullCube(IBlockState state)
     {
         return false;
@@ -403,7 +434,7 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
                 worldIn.setBlockState(blockpos3, Blocks.AIR.getDefaultState(), 2);
                 blockpos3 = blockpos3.offset(enumfacing);
                 worldIn.setBlockState(blockpos3, SSBlocks.pentaPistonMoving.getDefaultState().withProperty(FACING, direction), 4);
-                worldIn.setTileEntity(blockpos3, PentaPistonMoving.createTilePiston(list1.get(l), direction, extending, false));
+                worldIn.setTileEntity(blockpos3, BlockPentaPistonMoving.createTilePiston(list1.get(l), direction, extending, false));
                 --k;
                 aiblockstate[k] = iblockstate2;
             }
@@ -412,11 +443,11 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
 
             if (extending)
             {
-                PentaPistonExtension.EnumPistonType PentaPistonExtension$enumpistontype = this.isSticky ? PentaPistonExtension.EnumPistonType.STICKY : PentaPistonExtension.EnumPistonType.DEFAULT;
-                IBlockState iblockstate3 = SSBlocks.pentaPistonExtension.getDefaultState().withProperty(PentaPistonExtension.FACING, direction).withProperty(PentaPistonExtension.TYPE, PentaPistonExtension$enumpistontype);
-                IBlockState iblockstate1 = SSBlocks.pentaPistonMoving.getDefaultState().withProperty(PentaPistonMoving.FACING, direction).withProperty(PentaPistonMoving.TYPE, this.isSticky ? PentaPistonExtension.EnumPistonType.STICKY : PentaPistonExtension.EnumPistonType.DEFAULT);
+                BlockPentaPistonExtension.EnumPistonType PentaPistonExtension$enumpistontype = this.isSticky ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT;
+                IBlockState iblockstate3 = SSBlocks.pentaPistonExtension.getDefaultState().withProperty(BlockPentaPistonExtension.FACING, direction).withProperty(BlockPentaPistonExtension.TYPE, PentaPistonExtension$enumpistontype);
+                IBlockState iblockstate1 = SSBlocks.pentaPistonMoving.getDefaultState().withProperty(BlockPentaPistonMoving.FACING, direction).withProperty(BlockPentaPistonMoving.TYPE, this.isSticky ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT);
                 worldIn.setBlockState(blockpos2, iblockstate1, 4);
-                worldIn.setTileEntity(blockpos2, PentaPistonMoving.createTilePiston(iblockstate3, direction, true, true));
+                worldIn.setTileEntity(blockpos2, BlockPentaPistonMoving.createTilePiston(iblockstate3, direction, true, true));
             }
 
             for (int i1 = list2.size() - 1; i1 >= 0; --i1)
@@ -441,6 +472,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
     /**
      * Convert the given metadata into a BlockState for this Block
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta)
     {
         return this.getDefaultState().withProperty(FACING, getFacing(meta)).withProperty(EXTENDED, Boolean.valueOf((meta & 8) > 0));
@@ -466,6 +499,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
      * Returns the blockstate with the given rotation from the passed blockstate. If inapplicable, returns the passed
      * blockstate.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState withRotation(IBlockState state, Rotation rot)
     {
         return state.withProperty(FACING, rot.rotate((EnumFacing)state.getValue(FACING)));
@@ -475,6 +510,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
      * Returns the blockstate with the given mirror of the passed blockstate. If inapplicable, returns the passed
      * blockstate.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
     {
         return state.withRotation(mirrorIn.toRotation((EnumFacing)state.getValue(FACING)));
@@ -501,6 +538,8 @@ public class PentaPistonBlock extends SSBlockDirectional{// implements ITileEnti
      *
      * @return an approximation of the form of the given face
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
     {
         state = this.getActualState(state, worldIn, pos);

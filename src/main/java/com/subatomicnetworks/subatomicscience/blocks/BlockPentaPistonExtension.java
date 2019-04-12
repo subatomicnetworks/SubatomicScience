@@ -1,7 +1,11 @@
 package com.subatomicnetworks.subatomicscience.blocks;
 
+import com.subatomicnetworks.subatomicscience.Reference;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
+import com.subatomicnetworks.subatomicscience.init.SSTabs;
+import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -12,7 +16,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
@@ -29,8 +32,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class PentaPistonExtension extends SSBlockDirectional {
-    public static final PropertyEnum<PentaPistonExtension.EnumPistonType> TYPE = PropertyEnum.<PentaPistonExtension.EnumPistonType>create("type", PentaPistonExtension.EnumPistonType.class);
+public class BlockPentaPistonExtension extends BlockDirectional {
+    public static final PropertyEnum<BlockPentaPistonExtension.EnumPistonType> TYPE = PropertyEnum.<BlockPentaPistonExtension.EnumPistonType>create("type", BlockPentaPistonExtension.EnumPistonType.class);
     public static final PropertyBool SHORT = PropertyBool.create("short");
     protected static final AxisAlignedBB PISTON_EXTENSION_EAST_AABB = new AxisAlignedBB(0.75D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
     protected static final AxisAlignedBB PISTON_EXTENSION_WEST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.25D, 1.0D, 1.0D);
@@ -51,12 +54,23 @@ public class PentaPistonExtension extends SSBlockDirectional {
     protected static final AxisAlignedBB SHORT_EAST_ARM_AABB = new AxisAlignedBB(0.0D, 0.375D, 0.375D, 0.75D, 0.625D, 0.625D);
     protected static final AxisAlignedBB SHORT_WEST_ARM_AABB = new AxisAlignedBB(0.25D, 0.375D, 0.375D, 1.0D, 0.625D, 0.625D);
 
-    public PentaPistonExtension()
+    public BlockPentaPistonExtension(String name)
     {
-        super("penta_piston_extension",false, Material.PISTON,SoundType.STONE,0.5F);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, PentaPistonExtension.EnumPistonType.DEFAULT).withProperty(SHORT, Boolean.valueOf(false)));
+        super(Material.PISTON);
+        this.setSoundType(SoundType.STONE);
+        this.setHardness(0.5f);
+        this.setUnlocalizedName(name);
+        this.setCreativeTab(SSTabs.mainTab);
+
+        this.setRegistryName(Reference.PREFIX + name);
+
+        SSRegistry.registerBlock(this, false);
+
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, BlockPentaPistonExtension.EnumPistonType.DEFAULT).withProperty(SHORT, Boolean.valueOf(false)));
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         switch ((EnumFacing)state.getValue(FACING))
@@ -77,6 +91,8 @@ public class PentaPistonExtension extends SSBlockDirectional {
         }
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState)
     {
         addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getBoundingBox(worldIn, pos));
@@ -108,6 +124,8 @@ public class PentaPistonExtension extends SSBlockDirectional {
     /**
      * Determines if the block is solid enough on the top side to support other blocks, like redstone components.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean isTopSolid(IBlockState state)
     {
         return state.getValue(FACING) == EnumFacing.UP;
@@ -143,7 +161,7 @@ public class PentaPistonExtension extends SSBlockDirectional {
         pos = pos.offset(enumfacing);
         IBlockState iblockstate = worldIn.getBlockState(pos);
 
-        if ((iblockstate.getBlock() == SSBlocks.pentaPiston || iblockstate.getBlock() == SSBlocks.pentaPistonSticky) && ((Boolean)iblockstate.getValue(PentaPistonBlock.EXTENDED)).booleanValue())
+        if ((iblockstate.getBlock() == SSBlocks.pentaPiston || iblockstate.getBlock() == SSBlocks.pentaPistonSticky) && ((Boolean)iblockstate.getValue(BlockPentaPiston.EXTENDED)).booleanValue())
         {
             iblockstate.getBlock().dropBlockAsItem(worldIn, pos, iblockstate, 0);
             worldIn.setBlockToAir(pos);
@@ -153,11 +171,15 @@ public class PentaPistonExtension extends SSBlockDirectional {
     /**
      * Used to determine ambient occlusion and culling when rebuilding chunks for render
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public boolean isFullCube(IBlockState state)
     {
         return false;
@@ -192,6 +214,8 @@ public class PentaPistonExtension extends SSBlockDirectional {
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
@@ -208,7 +232,9 @@ public class PentaPistonExtension extends SSBlockDirectional {
         }
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
+    @SuppressWarnings("deprecation")
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
     {
         return true;
@@ -221,17 +247,21 @@ public class PentaPistonExtension extends SSBlockDirectional {
         return i > 5 ? null : EnumFacing.getFront(i);
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
-        return new ItemStack(state.getValue(TYPE) == PentaPistonExtension.EnumPistonType.STICKY ? SSBlocks.pentaPistonSticky : SSBlocks.pentaPiston);
+        return new ItemStack(state.getValue(TYPE) == BlockPentaPistonExtension.EnumPistonType.STICKY ? SSBlocks.pentaPistonSticky : SSBlocks.pentaPiston);
     }
 
     /**
      * Convert the given metadata into a BlockState for this Block
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(FACING, getFacing(meta)).withProperty(TYPE, (meta & 8) > 0 ? PentaPistonExtension.EnumPistonType.STICKY : PentaPistonExtension.EnumPistonType.DEFAULT);
+        return this.getDefaultState().withProperty(FACING, getFacing(meta)).withProperty(TYPE, (meta & 8) > 0 ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT);
     }
 
     /**
@@ -242,7 +272,7 @@ public class PentaPistonExtension extends SSBlockDirectional {
         int i = 0;
         i = i | ((EnumFacing)state.getValue(FACING)).getIndex();
 
-        if (state.getValue(TYPE) == PentaPistonExtension.EnumPistonType.STICKY)
+        if (state.getValue(TYPE) == BlockPentaPistonExtension.EnumPistonType.STICKY)
         {
             i |= 8;
         }
@@ -254,6 +284,8 @@ public class PentaPistonExtension extends SSBlockDirectional {
      * Returns the blockstate with the given rotation from the passed blockstate. If inapplicable, returns the passed
      * blockstate.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState withRotation(IBlockState state, Rotation rot)
     {
         return state.withProperty(FACING, rot.rotate((EnumFacing)state.getValue(FACING)));
@@ -263,6 +295,8 @@ public class PentaPistonExtension extends SSBlockDirectional {
      * Returns the blockstate with the given mirror of the passed blockstate. If inapplicable, returns the passed
      * blockstate.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
     {
         return state.withRotation(mirrorIn.toRotation((EnumFacing)state.getValue(FACING)));
@@ -282,6 +316,8 @@ public class PentaPistonExtension extends SSBlockDirectional {
      *
      * @return an approximation of the form of the given face
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
     {
         return face == state.getValue(FACING) ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;

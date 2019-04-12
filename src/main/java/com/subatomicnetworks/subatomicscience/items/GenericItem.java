@@ -1,17 +1,17 @@
 package com.subatomicnetworks.subatomicscience.items;
 
-import com.subatomicnetworks.subatomicscience.References;
+import com.subatomicnetworks.subatomicscience.Reference;
 import com.subatomicnetworks.subatomicscience.init.SSTabs;
 import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
 import net.minecraft.item.Item;
 
-public class SSItem extends Item {
+public class GenericItem extends Item {
 
-    public SSItem(String name) {
+    public GenericItem(String name) {
         this.setUnlocalizedName(name);
         this.setCreativeTab(SSTabs.mainTab);
 
-        this.setRegistryName(References.PREFIX + name);
+        this.setRegistryName(Reference.PREFIX + name);
 
         SSRegistry.registerItem(this);
     }

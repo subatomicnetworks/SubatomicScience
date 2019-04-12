@@ -1,12 +1,8 @@
 package com.subatomicnetworks.subatomicscience.proxy;
 
-import com.subatomicnetworks.subatomicscience.blocks.SSBlock;
-import com.subatomicnetworks.subatomicscience.blocks.SSBlockContainer;
-import com.subatomicnetworks.subatomicscience.blocks.SSBlockDirectional;
-import com.subatomicnetworks.subatomicscience.client.renderers.PentaPistonTESR;
-import com.subatomicnetworks.subatomicscience.init.SSBlocks;
+import com.subatomicnetworks.subatomicscience.client.renderers.tiles.RenderPentaPiston;
 import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
-import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
+import com.subatomicnetworks.subatomicscience.tiles.TilePentaPiston;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
@@ -17,17 +13,14 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ClientProxy extends CommonProxy {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        //This is nasty
-        GameRegistry.registerTileEntity(PentaPistonTileEntity.class, SSBlocks.pentaPiston.getRegistryName());
-        ClientRegistry.bindTileEntitySpecialRenderer(PentaPistonTileEntity.class, new PentaPistonTESR());
-        //GameRegistry.registerTileEntity(PentaPistonTileEntity.class, SSBlocks.pentaPistonSticky.getRegistryName());
+
+        ClientRegistry.bindTileEntitySpecialRenderer(TilePentaPiston.class, new RenderPentaPiston());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.subatomicnetworks.subatomicscience.util;
 
 import com.google.common.collect.Lists;
-import com.subatomicnetworks.subatomicscience.blocks.PentaPistonBlock;
+import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPiston;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.state.IBlockState;
@@ -45,7 +45,7 @@ public class PentaPistonStructureHelper {
         this.toDestroy.clear();
         IBlockState iblockstate = this.world.getBlockState(this.blockToMove);
 
-        if (!PentaPistonBlock.canPush(iblockstate, this.world, this.blockToMove, this.moveDirection, false, this.moveDirection))
+        if (!BlockPentaPiston.canPush(iblockstate, this.world, this.blockToMove, this.moveDirection, false, this.moveDirection))
         {
             if (iblockstate.getMobilityFlag() == EnumPushReaction.DESTROY)
             {
@@ -86,7 +86,7 @@ public class PentaPistonStructureHelper {
         {
             return true;
         }
-        else if (!PentaPistonBlock.canPush(iblockstate, this.world, origin, this.moveDirection, false, p_177251_2_))
+        else if (!BlockPentaPiston.canPush(iblockstate, this.world, origin, this.moveDirection, false, p_177251_2_))
         {
             return true;
         }
@@ -114,7 +114,7 @@ public class PentaPistonStructureHelper {
                     iblockstate = this.world.getBlockState(blockpos);
                     block = iblockstate.getBlock();
 
-                    if (iblockstate.getBlock().isAir(iblockstate, this.world, blockpos) || !PentaPistonBlock.canPush(iblockstate, this.world, blockpos, this.moveDirection, false, this.moveDirection.getOpposite()) || blockpos.equals(this.pistonPos))
+                    if (iblockstate.getBlock().isAir(iblockstate, this.world, blockpos) || !BlockPentaPiston.canPush(iblockstate, this.world, blockpos, this.moveDirection, false, this.moveDirection.getOpposite()) || blockpos.equals(this.pistonPos))
                     {
                         break;
                     }
@@ -166,7 +166,7 @@ public class PentaPistonStructureHelper {
                         return true;
                     }
 
-                    if (!PentaPistonBlock.canPush(iblockstate, this.world, blockpos1, this.moveDirection, true, this.moveDirection) || blockpos1.equals(this.pistonPos))
+                    if (!BlockPentaPiston.canPush(iblockstate, this.world, blockpos1, this.moveDirection, true, this.moveDirection) || blockpos1.equals(this.pistonPos))
                     {
                         return false;
                     }

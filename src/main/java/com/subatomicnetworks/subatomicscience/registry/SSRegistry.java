@@ -1,13 +1,8 @@
 package com.subatomicnetworks.subatomicscience.registry;
 
-import com.subatomicnetworks.subatomicscience.References;
-import com.subatomicnetworks.subatomicscience.blocks.PentaPistonBlock;
-import com.subatomicnetworks.subatomicscience.blocks.SSBlock;
-import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.ArrayList;
 import java.util.List;

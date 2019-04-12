@@ -1,9 +1,9 @@
-package com.subatomicnetworks.subatomicscience.client.renderers;
+package com.subatomicnetworks.subatomicscience.client.renderers.tiles;
 
-import com.subatomicnetworks.subatomicscience.blocks.PentaPistonBlock;
-import com.subatomicnetworks.subatomicscience.blocks.PentaPistonExtension;
+import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPiston;
+import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPistonExtension;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
-import com.subatomicnetworks.subatomicscience.tileentities.PentaPistonTileEntity;
+import com.subatomicnetworks.subatomicscience.tiles.TilePentaPiston;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -18,11 +18,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class PentaPistonTESR extends TileEntitySpecialRenderer<PentaPistonTileEntity> {
+public class RenderPentaPiston extends TileEntitySpecialRenderer<TilePentaPiston> {
 
     private BlockRendererDispatcher blockRenderer;
 
-    public void render(PentaPistonTileEntity te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
+    public void render(TilePentaPiston te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
     {
         if (blockRenderer == null) blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher(); //Forge: Delay this from constructor to allow us to change it later
         BlockPos blockpos = te.getPos();
@@ -54,17 +54,17 @@ public class PentaPistonTESR extends TileEntitySpecialRenderer<PentaPistonTileEn
 
             if (block == SSBlocks.pentaPistonExtension && te.getProgress(partialTicks) <= 0.25F)
             {
-                iblockstate = iblockstate.withProperty(PentaPistonExtension.SHORT, Boolean.valueOf(true));
+                iblockstate = iblockstate.withProperty(BlockPentaPistonExtension.SHORT, Boolean.valueOf(true));
                 this.renderStateModel(blockpos, iblockstate, bufferbuilder, world, true);
             }
             else if (te.shouldPistonHeadBeRendered() && !te.isExtending())
             {
-                PentaPistonExtension.EnumPistonType PentaPistonExtension$enumpistontype = block == SSBlocks.pentaPistonSticky ? PentaPistonExtension.EnumPistonType.STICKY : PentaPistonExtension.EnumPistonType.DEFAULT;
-                IBlockState iblockstate1 = SSBlocks.pentaPistonExtension.getDefaultState().withProperty(PentaPistonExtension.TYPE, PentaPistonExtension$enumpistontype).withProperty(PentaPistonExtension.FACING, iblockstate.getValue(PentaPistonBlock.FACING));
-                iblockstate1 = iblockstate1.withProperty(PentaPistonExtension.SHORT, Boolean.valueOf(te.getProgress(partialTicks) >= 0.5F));
+                BlockPentaPistonExtension.EnumPistonType PentaPistonExtension$enumpistontype = block == SSBlocks.pentaPistonSticky ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT;
+                IBlockState iblockstate1 = SSBlocks.pentaPistonExtension.getDefaultState().withProperty(BlockPentaPistonExtension.TYPE, PentaPistonExtension$enumpistontype).withProperty(BlockPentaPistonExtension.FACING, iblockstate.getValue(BlockPentaPiston.FACING));
+                iblockstate1 = iblockstate1.withProperty(BlockPentaPistonExtension.SHORT, Boolean.valueOf(te.getProgress(partialTicks) >= 0.5F));
                 this.renderStateModel(blockpos, iblockstate1, bufferbuilder, world, true);
                 bufferbuilder.setTranslation(x - (double)blockpos.getX(), y - (double)blockpos.getY(), z - (double)blockpos.getZ());
-                iblockstate = iblockstate.withProperty(PentaPistonBlock.EXTENDED, Boolean.valueOf(true));
+                iblockstate = iblockstate.withProperty(BlockPentaPiston.EXTENDED, Boolean.valueOf(true));
                 this.renderStateModel(blockpos, iblockstate, bufferbuilder, world, true);
             }
             else
