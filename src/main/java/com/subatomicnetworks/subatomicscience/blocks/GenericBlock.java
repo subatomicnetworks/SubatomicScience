@@ -15,7 +15,7 @@ public class GenericBlock extends Block{
         this.setSoundType(sound);
         this.setResistance(resistance);
         this.setHardness(hardness);
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setCreativeTab(SSTabs.mainTab);
         this.setHarvestLevel(toolName, toolLevel);
 
@@ -29,7 +29,7 @@ public class GenericBlock extends Block{
 
         this.setSoundType(sound);
         this.setHardness(hardness);
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setCreativeTab(SSTabs.mainTab);
 
         this.setRegistryName(Reference.PREFIX + name);

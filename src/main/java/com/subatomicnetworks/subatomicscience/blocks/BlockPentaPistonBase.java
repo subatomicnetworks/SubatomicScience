@@ -34,7 +34,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockPentaPiston extends BlockDirectional {
+public class BlockPentaPistonBase extends BlockDirectional {
 
     public static final PropertyBool EXTENDED = BlockPistonBase.EXTENDED;
     protected static final AxisAlignedBB PISTON_BASE_EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.75D, 1.0D, 1.0D);
@@ -46,12 +46,12 @@ public class BlockPentaPiston extends BlockDirectional {
     /** This piston is the sticky one? */
     private final boolean isSticky;
 
-    public BlockPentaPiston(String name, boolean isSticky)
+    public BlockPentaPistonBase(String name, boolean isSticky)
     {
         super(Material.PISTON);
         this.setSoundType(SoundType.STONE);
         this.setHardness(0.5f);
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setCreativeTab(SSTabs.mainTab);
 
         this.setRegistryName(Reference.PREFIX + name);
@@ -278,7 +278,7 @@ public class BlockPentaPiston extends BlockDirectional {
 
             if (this.isSticky)
             {
-                BlockPos blockpos = pos.add(enumfacing.getFrontOffsetX() * 2, enumfacing.getFrontOffsetY() * 2, enumfacing.getFrontOffsetZ() * 2);
+                BlockPos blockpos = pos.add(enumfacing.getXOffset() * 2, enumfacing.getYOffset() * 2, enumfacing.getZOffset() * 2);
                 IBlockState iblockstate = worldIn.getBlockState(blockpos);
                 Block block = iblockstate.getBlock();
                 boolean flag1 = false;
@@ -299,7 +299,7 @@ public class BlockPentaPiston extends BlockDirectional {
                     }
                 }
 
-                if (!flag1 && !iblockstate.getBlock().isAir(iblockstate, worldIn, blockpos) && canPush(iblockstate, worldIn, blockpos, enumfacing.getOpposite(), false, enumfacing) && (iblockstate.getMobilityFlag() == EnumPushReaction.NORMAL || block == SSBlocks.pentaPiston || block == SSBlocks.pentaPistonSticky))
+                if (!flag1 && !iblockstate.getBlock().isAir(iblockstate, worldIn, blockpos) && canPush(iblockstate, worldIn, blockpos, enumfacing.getOpposite(), false, enumfacing) && (iblockstate.getPushReaction() == EnumPushReaction.NORMAL || block == SSBlocks.pentaPiston || block == SSBlocks.pentaPistonSticky))
                 {
                     this.doMove(worldIn, pos, enumfacing, false);
                 }
@@ -326,7 +326,7 @@ public class BlockPentaPiston extends BlockDirectional {
     public static EnumFacing getFacing(int meta)
     {
         int i = meta & 7;
-        return i > 5 ? null : EnumFacing.getFront(i);
+        return i > 5 ? null : EnumFacing.byIndex(i);
     }
 
     /**
@@ -355,7 +355,7 @@ public class BlockPentaPiston extends BlockDirectional {
                         return false;
                     }
 
-                    switch (blockStateIn.getMobilityFlag())
+                    switch (blockStateIn.getPushReaction())
                     {
                         case BLOCK:
                             return false;

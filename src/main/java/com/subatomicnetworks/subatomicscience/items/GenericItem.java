@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 public class GenericItem extends Item {
 
     public GenericItem(String name) {
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setCreativeTab(SSTabs.mainTab);
 
         this.setRegistryName(Reference.PREFIX + name);

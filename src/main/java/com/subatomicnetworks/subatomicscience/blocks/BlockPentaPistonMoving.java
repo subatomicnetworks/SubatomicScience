@@ -44,7 +44,7 @@ public class BlockPentaPistonMoving extends BlockContainer {
         super(Material.PISTON);
         this.setSoundType(SoundType.STONE);
         this.setHardness(-1.0F);
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setCreativeTab(SSTabs.mainTab);
 
         this.setRegistryName(Reference.PREFIX + name);
@@ -108,7 +108,7 @@ public class BlockPentaPistonMoving extends BlockContainer {
         BlockPos blockpos = pos.offset(((EnumFacing)state.getValue(FACING)).getOpposite());
         IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-        if (iblockstate.getBlock() instanceof BlockPentaPiston && ((Boolean)iblockstate.getValue(BlockPentaPiston.EXTENDED)).booleanValue())
+        if (iblockstate.getBlock() instanceof BlockPentaPistonBase && ((Boolean)iblockstate.getValue(BlockPentaPistonBase.EXTENDED)).booleanValue())
         {
             worldIn.setBlockToAir(blockpos);
         }

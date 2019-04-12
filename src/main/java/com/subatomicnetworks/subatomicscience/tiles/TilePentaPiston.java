@@ -1,7 +1,7 @@
 package com.subatomicnetworks.subatomicscience.tiles;
 
 import com.google.common.collect.Lists;
-import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPiston;
+import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPistonBase;
 import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPistonExtension;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
 import net.minecraft.block.Block;
@@ -101,19 +101,19 @@ public class TilePentaPiston extends TileEntity implements ITickable
     @SideOnly(Side.CLIENT)
     public float getOffsetX(float ticks)
     {
-        return (float)this.pistonFacing.getFrontOffsetX() * this.getExtendedProgress(this.getProgress(ticks));
+        return (float)this.pistonFacing.getXOffset() * this.getExtendedProgress(this.getProgress(ticks));
     }
 
     @SideOnly(Side.CLIENT)
     public float getOffsetY(float ticks)
     {
-        return (float)this.pistonFacing.getFrontOffsetY() * this.getExtendedProgress(this.getProgress(ticks));
+        return (float)this.pistonFacing.getYOffset() * this.getExtendedProgress(this.getProgress(ticks));
     }
 
     @SideOnly(Side.CLIENT)
     public float getOffsetZ(float ticks)
     {
-        return (float)this.pistonFacing.getFrontOffsetZ() * this.getExtendedProgress(this.getProgress(ticks));
+        return (float)this.pistonFacing.getZOffset() * this.getExtendedProgress(this.getProgress(ticks));
     }
 
     private float getExtendedProgress(float p_184320_1_)
@@ -130,12 +130,12 @@ public class TilePentaPiston extends TileEntity implements ITickable
     {
         p_184319_3_ = this.getExtendedProgress(p_184319_3_);
         IBlockState iblockstate = this.getCollisionRelatedBlockState();
-        return iblockstate.getBoundingBox(p_184319_1_, p_184319_2_).offset((double)(p_184319_3_ * (float)this.pistonFacing.getFrontOffsetX()), (double)(p_184319_3_ * (float)this.pistonFacing.getFrontOffsetY()), (double)(p_184319_3_ * (float)this.pistonFacing.getFrontOffsetZ()));
+        return iblockstate.getBoundingBox(p_184319_1_, p_184319_2_).offset((double)(p_184319_3_ * (float)this.pistonFacing.getXOffset()), (double)(p_184319_3_ * (float)this.pistonFacing.getYOffset()), (double)(p_184319_3_ * (float)this.pistonFacing.getZOffset()));
     }
 
     private IBlockState getCollisionRelatedBlockState()
     {
-        return !this.isExtending() && this.shouldPistonHeadBeRendered() ? SSBlocks.pentaPistonExtension.getDefaultState().withProperty(BlockPentaPistonExtension.TYPE, this.pistonState.getBlock() == SSBlocks.pentaPistonSticky ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT).withProperty(BlockPentaPistonExtension.FACING, this.pistonState.getValue(BlockPentaPiston.FACING)) : this.pistonState;
+        return !this.isExtending() && this.shouldPistonHeadBeRendered() ? SSBlocks.pentaPistonExtension.getDefaultState().withProperty(BlockPentaPistonExtension.TYPE, this.pistonState.getBlock() == SSBlocks.pentaPistonSticky ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT).withProperty(BlockPentaPistonExtension.FACING, this.pistonState.getValue(BlockPentaPistonBase.FACING)) : this.pistonState;
     }
 
     private void moveCollidedEntities(float p_184322_1_)
@@ -165,13 +165,13 @@ public class TilePentaPiston extends TileEntity implements ITickable
                             switch (enumfacing.getAxis())
                             {
                                 case X:
-                                    entity.motionX = (double)enumfacing.getFrontOffsetX();
+                                    entity.motionX = (double)enumfacing.getXOffset();
                                     break;
                                 case Y:
-                                    entity.motionY = (double)enumfacing.getFrontOffsetY();
+                                    entity.motionY = (double)enumfacing.getYOffset();
                                     break;
                                 case Z:
-                                    entity.motionZ = (double)enumfacing.getFrontOffsetZ();
+                                    entity.motionZ = (double)enumfacing.getZOffset();
                             }
                         }
 
@@ -197,7 +197,7 @@ public class TilePentaPiston extends TileEntity implements ITickable
                         {
                             d1 = Math.min(d1, d0) + 0.01D;
                             MOVING_ENTITY.set(enumfacing);
-                            entity.move(MoverType.PISTON, d1 * (double)enumfacing.getFrontOffsetX(), d1 * (double)enumfacing.getFrontOffsetY(), d1 * (double)enumfacing.getFrontOffsetZ());
+                            entity.move(MoverType.PISTON, d1 * (double)enumfacing.getXOffset(), d1 * (double)enumfacing.getYOffset(), d1 * (double)enumfacing.getZOffset());
                             MOVING_ENTITY.set(null);
 
                             if (!this.extending && this.shouldHeadBeRendered)
@@ -250,7 +250,7 @@ public class TilePentaPiston extends TileEntity implements ITickable
     private AxisAlignedBB moveByPositionAndProgress(AxisAlignedBB p_190607_1_)
     {
         double d0 = (double)this.getExtendedProgress(this.progress);
-        return p_190607_1_.offset((double)this.pos.getX() + d0 * (double)this.pistonFacing.getFrontOffsetX(), (double)this.pos.getY() + d0 * (double)this.pistonFacing.getFrontOffsetY(), (double)this.pos.getZ() + d0 * (double)this.pistonFacing.getFrontOffsetZ());
+        return p_190607_1_.offset((double)this.pos.getX() + d0 * (double)this.pistonFacing.getXOffset(), (double)this.pos.getY() + d0 * (double)this.pistonFacing.getYOffset(), (double)this.pos.getZ() + d0 * (double)this.pistonFacing.getZOffset());
     }
 
     private AxisAlignedBB getMovementArea(AxisAlignedBB p_190610_1_, EnumFacing p_190610_2_, double p_190610_3_)
@@ -292,7 +292,7 @@ public class TilePentaPiston extends TileEntity implements ITickable
             {
                 d0 = Math.min(d0, p_190605_3_) + 0.01D;
                 MOVING_ENTITY.set(p_190605_2_);
-                p_190605_1_.move(MoverType.PISTON, d0 * (double)enumfacing.getFrontOffsetX(), d0 * (double)enumfacing.getFrontOffsetY(), d0 * (double)enumfacing.getFrontOffsetZ());
+                p_190605_1_.move(MoverType.PISTON, d0 * (double)enumfacing.getXOffset(), d0 * (double)enumfacing.getYOffset(), d0 * (double)enumfacing.getZOffset());
                 MOVING_ENTITY.set(null);
             }
         }
@@ -372,7 +372,7 @@ public class TilePentaPiston extends TileEntity implements ITickable
     {
         super.readFromNBT(compound);
         this.pistonState = Block.getBlockById(compound.getInteger("blockId")).getStateFromMeta(compound.getInteger("blockData"));
-        this.pistonFacing = EnumFacing.getFront(compound.getInteger("facing"));
+        this.pistonFacing = EnumFacing.byIndex(compound.getInteger("facing"));
         this.progress = compound.getFloat("progress");
         this.lastProgress = this.progress;
         this.extending = compound.getBoolean("extending");
@@ -395,7 +395,7 @@ public class TilePentaPiston extends TileEntity implements ITickable
     {
         if (!this.extending && this.shouldHeadBeRendered)
         {
-            this.pistonState.withProperty(BlockPentaPiston.EXTENDED, Boolean.valueOf(true)).addCollisionBoxToList(p_190609_1_, p_190609_2_, p_190609_3_, p_190609_4_, p_190609_5_, false);
+            this.pistonState.withProperty(BlockPentaPistonBase.EXTENDED, Boolean.valueOf(true)).addCollisionBoxToList(p_190609_1_, p_190609_2_, p_190609_3_, p_190609_4_, p_190609_5_, false);
         }
 
         EnumFacing enumfacing = MOVING_ENTITY.get();
@@ -415,9 +415,9 @@ public class TilePentaPiston extends TileEntity implements ITickable
             }
 
             float f = this.getExtendedProgress(this.progress);
-            double d0 = (double)((float)this.pistonFacing.getFrontOffsetX() * f);
-            double d1 = (double)((float)this.pistonFacing.getFrontOffsetY() * f);
-            double d2 = (double)((float)this.pistonFacing.getFrontOffsetZ() * f);
+            double d0 = (double)((float)this.pistonFacing.getXOffset() * f);
+            double d1 = (double)((float)this.pistonFacing.getYOffset() * f);
+            double d2 = (double)((float)this.pistonFacing.getZOffset() * f);
             iblockstate.addCollisionBoxToList(p_190609_1_, p_190609_2_, p_190609_3_.offset(-d0, -d1, -d2), p_190609_4_, p_190609_5_, true);
 
             for (int j = i; j < p_190609_4_.size(); ++j)

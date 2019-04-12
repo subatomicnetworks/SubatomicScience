@@ -1,6 +1,6 @@
 package com.subatomicnetworks.subatomicscience.client.renderers.tiles;
 
-import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPiston;
+import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPistonBase;
 import com.subatomicnetworks.subatomicscience.blocks.BlockPentaPistonExtension;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
 import com.subatomicnetworks.subatomicscience.tiles.TilePentaPiston;
@@ -60,11 +60,11 @@ public class RenderPentaPiston extends TileEntitySpecialRenderer<TilePentaPiston
             else if (te.shouldPistonHeadBeRendered() && !te.isExtending())
             {
                 BlockPentaPistonExtension.EnumPistonType PentaPistonExtension$enumpistontype = block == SSBlocks.pentaPistonSticky ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT;
-                IBlockState iblockstate1 = SSBlocks.pentaPistonExtension.getDefaultState().withProperty(BlockPentaPistonExtension.TYPE, PentaPistonExtension$enumpistontype).withProperty(BlockPentaPistonExtension.FACING, iblockstate.getValue(BlockPentaPiston.FACING));
+                IBlockState iblockstate1 = SSBlocks.pentaPistonExtension.getDefaultState().withProperty(BlockPentaPistonExtension.TYPE, PentaPistonExtension$enumpistontype).withProperty(BlockPentaPistonExtension.FACING, iblockstate.getValue(BlockPentaPistonBase.FACING));
                 iblockstate1 = iblockstate1.withProperty(BlockPentaPistonExtension.SHORT, Boolean.valueOf(te.getProgress(partialTicks) >= 0.5F));
                 this.renderStateModel(blockpos, iblockstate1, bufferbuilder, world, true);
                 bufferbuilder.setTranslation(x - (double)blockpos.getX(), y - (double)blockpos.getY(), z - (double)blockpos.getZ());
-                iblockstate = iblockstate.withProperty(BlockPentaPiston.EXTENDED, Boolean.valueOf(true));
+                iblockstate = iblockstate.withProperty(BlockPentaPistonBase.EXTENDED, Boolean.valueOf(true));
                 this.renderStateModel(blockpos, iblockstate, bufferbuilder, world, true);
             }
             else

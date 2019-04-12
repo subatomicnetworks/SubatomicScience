@@ -59,7 +59,7 @@ public class BlockPentaPistonExtension extends BlockDirectional {
         super(Material.PISTON);
         this.setSoundType(SoundType.STONE);
         this.setHardness(0.5f);
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setCreativeTab(SSTabs.mainTab);
 
         this.setRegistryName(Reference.PREFIX + name);
@@ -161,7 +161,7 @@ public class BlockPentaPistonExtension extends BlockDirectional {
         pos = pos.offset(enumfacing);
         IBlockState iblockstate = worldIn.getBlockState(pos);
 
-        if ((iblockstate.getBlock() == SSBlocks.pentaPiston || iblockstate.getBlock() == SSBlocks.pentaPistonSticky) && ((Boolean)iblockstate.getValue(BlockPentaPiston.EXTENDED)).booleanValue())
+        if ((iblockstate.getBlock() == SSBlocks.pentaPiston || iblockstate.getBlock() == SSBlocks.pentaPistonSticky) && ((Boolean)iblockstate.getValue(BlockPentaPistonBase.EXTENDED)).booleanValue())
         {
             iblockstate.getBlock().dropBlockAsItem(worldIn, pos, iblockstate, 0);
             worldIn.setBlockToAir(pos);
@@ -244,7 +244,7 @@ public class BlockPentaPistonExtension extends BlockDirectional {
     public static EnumFacing getFacing(int meta)
     {
         int i = meta & 7;
-        return i > 5 ? null : EnumFacing.getFront(i);
+        return i > 5 ? null : EnumFacing.byIndex(i);
     }
 
     @Override

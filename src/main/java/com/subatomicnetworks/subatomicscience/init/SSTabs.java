@@ -8,7 +8,7 @@ public final class SSTabs {
     public static CreativeTabs mainTab = new CreativeTabs("subatomicscience") {
 
         @Override
-        public ItemStack getTabIconItem() {
+        public ItemStack createIcon() {
             // TODO: Change to something from the mod
             return new ItemStack(Items.STICK);
         }
