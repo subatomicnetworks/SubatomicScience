@@ -1,7 +1,9 @@
 package com.subatomicnetworks.subatomicscience.proxy;
 
+import com.subatomicnetworks.subatomicscience.client.renderers.tiles.RenderFakePlayer;
 import com.subatomicnetworks.subatomicscience.client.renderers.tiles.RenderPentaPiston;
 import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
+import com.subatomicnetworks.subatomicscience.tiles.TileFakePlayer;
 import com.subatomicnetworks.subatomicscience.tiles.TilePentaPiston;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -14,34 +16,42 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class ClientProxy extends CommonProxy {
+public class ClientProxy extends CommonProxy
+{
 
     @Override
-    public void preInit(FMLPreInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event)
+    {
         super.preInit(event);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TilePentaPiston.class, new RenderPentaPiston());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileFakePlayer.class, new RenderFakePlayer());
     }
 
     @Override
-    public void init(FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event)
+    {
         super.init(event);
 
         this.registerItemModels();
     }
 
-    public void registerItemModels() {
+    public void registerItemModels()
+    {
         ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 
-        for (SSRegistry.BlockContainer blockContainer : SSRegistry.getBlockList()) {
+        for (SSRegistry.BlockContainer blockContainer : SSRegistry.getBlockList())
+        {
             Block block = blockContainer.getBlock();
             Item item = Item.getItemFromBlock(block);
+
             ModelResourceLocation model = new ModelResourceLocation(block.getRegistryName(), "inventory");
             ModelLoader.registerItemVariants(item, model);
             mesher.register(item, 0, model);
         }
 
-        for (Item item : SSRegistry.getItemList()) {
+        for (Item item : SSRegistry.getItemList())
+        {
             ModelResourceLocation model = new ModelResourceLocation(item.getRegistryName(), "inventory");
             ModelLoader.registerItemVariants(item, model);
             mesher.register(item, 0, model);
@@ -49,7 +59,9 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void postInit(FMLPostInitializationEvent event) {
+    public void postInit(FMLPostInitializationEvent event)
+    {
         super.postInit(event);
     }
+
 }

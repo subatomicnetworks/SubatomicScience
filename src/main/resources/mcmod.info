@@ -1,7 +1,7 @@
 [
 {
   "modid": "subatomicscience",
-  "name": "SubatomicScience",
+  "name": "Subatomic Science",
   "description": "A Minecraft tech mod about Subatomic Particles",
   "version": "${version}",
   "mcversion": "${mcversion}",
