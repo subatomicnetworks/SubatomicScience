@@ -1,6 +1,7 @@
 package com.subatomicnetworks.subatomicscience.proxy;
 
 import com.subatomicnetworks.subatomicscience.SubatomicScience;
+import com.subatomicnetworks.subatomicscience.compat.CompatHandler;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
 import com.subatomicnetworks.subatomicscience.init.SSItems;
 import com.subatomicnetworks.subatomicscience.init.SSTiles;
@@ -17,6 +18,8 @@ public class CommonProxy implements IProxy {
         SSBlocks.initBlocks();
         SSItems.initItems();
         SSTiles.initTiles();
+
+        CompatHandler.registerCompat();
     }
 
     @Override

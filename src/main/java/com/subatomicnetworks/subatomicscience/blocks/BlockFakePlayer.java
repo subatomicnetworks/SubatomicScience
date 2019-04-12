@@ -4,11 +4,14 @@ import com.subatomicnetworks.subatomicscience.Reference;
 import com.subatomicnetworks.subatomicscience.init.SSTabs;
 import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
 import com.subatomicnetworks.subatomicscience.tiles.TileFakePlayer;
+import com.subatomicnetworks.subatomicscience.util.IToolTipBuilder;
+import com.subatomicnetworks.subatomicscience.util.IToolTipProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -18,7 +21,8 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockFakePlayer extends Block implements ITileEntityProvider {
+public class BlockFakePlayer extends Block implements ITileEntityProvider, IToolTipProvider
+{
     public BlockFakePlayer(String name, Material material)
     {
         super(material);
@@ -81,6 +85,27 @@ public class BlockFakePlayer extends Block implements ITileEntityProvider {
     public TileEntity createNewTileEntity(World world, int meta)
     {
         return new TileFakePlayer();
+    }
+
+    @Override
+    public void addToolTipInfo(IToolTipBuilder builder, EntityPlayer player, World world, IBlockState blockState, BlockPos pos, EnumFacing side)
+    {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof TileFakePlayer)
+        {
+            TileFakePlayer te = (TileFakePlayer) tileEntity;
+
+            ItemStack stack = te.getStoredItem();
+            float pitch = te.getPitch();
+            float yaw = te.getYaw();
+
+            if (stack == null || stack.getCount() <= 0)
+                builder.addText("No Item");
+            else
+                builder.addItem(stack);
+            builder.addText("Pitch: " + pitch);
+            builder.addText("Yaw: " + yaw);
+        }
     }
 
 }
