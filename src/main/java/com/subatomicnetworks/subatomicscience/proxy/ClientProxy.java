@@ -1,5 +1,6 @@
 package com.subatomicnetworks.subatomicscience.proxy;
 
+import com.subatomicnetworks.subatomicscience.Reference;
 import com.subatomicnetworks.subatomicscience.client.renderers.tiles.RenderFakePlayer;
 import com.subatomicnetworks.subatomicscience.client.renderers.tiles.RenderPentaPiston;
 import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -22,6 +24,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void preInit(FMLPreInitializationEvent event)
     {
+        OBJLoader.INSTANCE.addDomain(Reference.MOD_ID);
         super.preInit(event);
 
         ClientRegistry.bindTileEntitySpecialRenderer(TilePentaPiston.class, new RenderPentaPiston());
