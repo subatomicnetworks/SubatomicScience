@@ -138,4 +138,4 @@ jar {
 	from sourceSets.api.output
 }
 
-build.dependsOn sourceJar_new, javadocJar, apiJar
+build.dependsOn sourceJar_new, apiJar
