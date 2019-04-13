@@ -28,6 +28,9 @@ public class BlockFakePlayer extends Block implements ITileEntityProvider, ITool
         super(material);
 
         this.setCreativeTab(SSTabs.mainTab);
+        this.setHardness(1.5F);
+        this.setResistance(10.0F);
+        this.setHarvestLevel("pickaxe", 0);
 
         this.setTranslationKey(name);
         this.setRegistryName(Reference.PREFIX + name);
