@@ -1,4 +1,8 @@
 {
+	"forge_marker": 1,
+    "defaults": {
+      "custom": { "flip-v": true }
+    },
     "variants": {
         "extended=false,facing=down": { "model": "subatomicscience:penta_piston_sticky", "x": 90 },
         "extended=false,facing=up": { "model": "subatomicscience:penta_piston_sticky", "x": 270 },
@@ -6,11 +10,11 @@
         "extended=false,facing=south": { "model": "subatomicscience:penta_piston_sticky", "y": 180 },
         "extended=false,facing=west": { "model": "subatomicscience:penta_piston_sticky", "y": 270 },
         "extended=false,facing=east": { "model": "subatomicscience:penta_piston_sticky", "y": 90 },
-        "extended=true,facing=down": { "model": "subatomicscience:penta_piston_extended_normal", "x": 90 },
-        "extended=true,facing=up": { "model": "subatomicscience:penta_piston_extended_normal", "x": 270 },
-        "extended=true,facing=north": { "model": "subatomicscience:penta_piston_extended_normal" },
-        "extended=true,facing=south": { "model": "subatomicscience:penta_piston_extended_normal", "y": 180 },
-        "extended=true,facing=west": { "model": "subatomicscience:penta_piston_extended_normal", "y": 270 },
-        "extended=true,facing=east": { "model": "subatomicscience:penta_piston_extended_normal", "y": 90 }
+        "extended=true,facing=down": { "model": "subatomicscience:penta_piston_base.obj", "x": 90 },
+        "extended=true,facing=up": { "model": "subatomicscience:penta_piston_base.obj", "x": 270 },
+        "extended=true,facing=north": { "model": "subatomicscience:penta_piston_base.obj" },
+        "extended=true,facing=south": { "model": "subatomicscience:penta_piston_base.obj", "y": 180 },
+        "extended=true,facing=west": { "model": "subatomicscience:penta_piston_base.obj", "y": 270 },
+        "extended=true,facing=east": { "model": "subatomicscience:penta_piston_base.obj", "y": 90 }
     }
 }

@@ -32,6 +32,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BlockPentaPistonBase extends BlockDirectional {
@@ -385,16 +387,45 @@ public class BlockPentaPistonBase extends BlockDirectional {
 
     //if (block == SSBlocks.pentaPiston && block == SSBlocks.pentaPistonSticky)
 
+    private ArrayList<EnumFacing> directions = new ArrayList<EnumFacing>() {{ add(EnumFacing.NORTH); add(EnumFacing.SOUTH); add(EnumFacing.EAST); add(EnumFacing.WEST); add(EnumFacing.UP); add(EnumFacing.DOWN); }};
 
     private boolean doMove(World worldIn, BlockPos pos, EnumFacing direction, boolean extending)
     {
-        if (!extending)
+        /*if (!extending)
         {
             worldIn.setBlockToAir(pos.offset(direction));
+        }//     \/     */
+        if (!extending)
+        {
+            for(EnumFacing dir:directions){
+                if (!(direction==dir.getOpposite())) {
+                    worldIn.setBlockToAir(pos.offset(dir));
+                }
+            }
         }
 
-        PentaPistonStructureHelper blockpistonstructurehelper = new PentaPistonStructureHelper(worldIn, pos, direction, extending);
+        /* Retraction issues:
+        * If no block in front of piston can't retract any blocks
+        * No retraction animation.
+        * Works Okay!  \/  */
+        for(int i=0;i<directions.size()*2;i++){
+            if (i<directions.size()) {
+                if(!(directions.get(i)==direction.getOpposite())){
+                    PentaPistonStructureHelper pistonStructureHelper = new PentaPistonStructureHelper(worldIn, pos, directions.get(i), extending);
+                    if (!pistonStructureHelper.canMove())
+                    {
+                        return false;
+                    }
+                }
+            } else if(!(directions.get(i-6)==direction.getOpposite())){
+                startMove(worldIn, pos, directions.get(i-6), extending, new PentaPistonStructureHelper(worldIn, pos, directions.get(i-6), extending));
+            }
+        }
+        return true;
+    }
 
+    public boolean startMove(World worldIn, BlockPos pos, EnumFacing direction, boolean extending,PentaPistonStructureHelper blockpistonstructurehelper){
+        //need this in for loop for all directions before doing a single move... maybe
         if (!blockpistonstructurehelper.canMove())
         {
             return false;
