@@ -404,10 +404,11 @@ public class BlockPentaPistonBase extends BlockDirectional {
             }
         }
 
-        /* Retraction issues:
-        * If no block in front of piston can't retract any blocks
-        * No retraction animation.
-        * Works Okay!  \/  */
+        /** TODO Issues:
+        * If no block is in front of the piston it can't retract any blocks.
+        * Retraction animation only on front extension.
+        * Block can be powered from all sides except the front.
+        * Below Works Okay!  \/  */
         for(int i=0;i<directions.size()*2;i++){
             if (i<directions.size()) {
                 if(!(directions.get(i)==direction.getOpposite())){
