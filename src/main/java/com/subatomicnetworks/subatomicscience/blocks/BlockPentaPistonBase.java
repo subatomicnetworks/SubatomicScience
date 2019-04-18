@@ -195,20 +195,20 @@ public class BlockPentaPistonBase extends BlockDirectional {
         }
         else if (!flag && ((Boolean)state.getValue(EXTENDED)).booleanValue())
         {
+
             worldIn.addBlockEvent(pos, this, 1, enumfacing.getIndex());
         }
     }
 
     private boolean shouldBeExtended(World worldIn, BlockPos pos, EnumFacing facing)
     {
-        for (EnumFacing enumfacing : EnumFacing.values())
+        //Redstone powered code
+        if (worldIn.isSidePowered(pos.offset(facing.getOpposite()), facing.getOpposite()))
         {
-            if (enumfacing != facing && worldIn.isSidePowered(pos.offset(enumfacing), enumfacing))
-            {
-                return true;
-            }
+            return true;
         }
 
+        //Bud power stuff
         if (worldIn.isSidePowered(pos, EnumFacing.DOWN))
         {
             return true;
@@ -275,6 +275,7 @@ public class BlockPentaPistonBase extends BlockDirectional {
                 ((TilePentaPiston)tileentity1).clearPistonTileEntity();
             }
 
+            //Retraction?
             worldIn.setBlockState(pos, SSBlocks.pentaPistonMoving.getDefaultState().withProperty(BlockPentaPistonMoving.FACING, enumfacing).withProperty(BlockPentaPistonMoving.TYPE, this.isSticky ? BlockPentaPistonExtension.EnumPistonType.STICKY : BlockPentaPistonExtension.EnumPistonType.DEFAULT), 3);
             worldIn.setTileEntity(pos, BlockPentaPistonMoving.createTilePiston(this.getStateFromMeta(param), enumfacing, false, true));
 
@@ -385,10 +386,6 @@ public class BlockPentaPistonBase extends BlockDirectional {
         }
     }
 
-    //if (block == SSBlocks.pentaPiston && block == SSBlocks.pentaPistonSticky)
-
-    private ArrayList<EnumFacing> directions = new ArrayList<EnumFacing>() {{ add(EnumFacing.NORTH); add(EnumFacing.SOUTH); add(EnumFacing.EAST); add(EnumFacing.WEST); add(EnumFacing.UP); add(EnumFacing.DOWN); }};
-
     private boolean doMove(World worldIn, BlockPos pos, EnumFacing direction, boolean extending)
     {
         /*if (!extending)
@@ -397,7 +394,7 @@ public class BlockPentaPistonBase extends BlockDirectional {
         }//     \/     */
         if (!extending)
         {
-            for(EnumFacing dir:directions){
+            for(EnumFacing dir:EnumFacing.values()){
                 if (!(direction==dir.getOpposite())) {
                     worldIn.setBlockToAir(pos.offset(dir));
                 }
@@ -409,17 +406,17 @@ public class BlockPentaPistonBase extends BlockDirectional {
         * Retraction animation only on front extension.
         * Block can be powered from all sides except the front.
         * Below Works Okay!  \/  */
-        for(int i=0;i<directions.size()*2;i++){
-            if (i<directions.size()) {
-                if(!(directions.get(i)==direction.getOpposite())){
-                    PentaPistonStructureHelper pistonStructureHelper = new PentaPistonStructureHelper(worldIn, pos, directions.get(i), extending);
+        for(int i=0;i<EnumFacing.values().length*2;i++){
+            if (i<EnumFacing.values().length) {
+                if(EnumFacing.values()[i]!=direction.getOpposite()){
+                    PentaPistonStructureHelper pistonStructureHelper = new PentaPistonStructureHelper(worldIn, pos, EnumFacing.values()[i], extending);
                     if (!pistonStructureHelper.canMove())
                     {
                         return false;
                     }
                 }
-            } else if(!(directions.get(i-6)==direction.getOpposite())){
-                startMove(worldIn, pos, directions.get(i-6), extending, new PentaPistonStructureHelper(worldIn, pos, directions.get(i-6), extending));
+            } else if(EnumFacing.values()[i-6]!=direction.getOpposite()){
+                startMove(worldIn, pos, EnumFacing.values()[i-6], extending, new PentaPistonStructureHelper(worldIn, pos, EnumFacing.values()[i-6], extending));
             }
         }
         return true;
