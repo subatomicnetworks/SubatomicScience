@@ -7,6 +7,7 @@ import com.subatomicnetworks.subatomicscience.tiles.TileFakePlayer;
 import com.subatomicnetworks.subatomicscience.util.IToolTipBuilder;
 import com.subatomicnetworks.subatomicscience.util.IToolTipProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -21,7 +22,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BlockFakePlayer extends Block implements ITileEntityProvider, IToolTipProvider
+public class BlockFakePlayer extends BlockContainer implements ITileEntityProvider, IToolTipProvider
 {
     public BlockFakePlayer(String name, Material material)
     {
@@ -110,5 +111,4 @@ public class BlockFakePlayer extends Block implements ITileEntityProvider, ITool
             builder.addText("Yaw: " + yaw);
         }
     }
-
 }
