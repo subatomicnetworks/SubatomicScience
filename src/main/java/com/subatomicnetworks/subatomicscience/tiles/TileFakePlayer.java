@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerDispenser;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -122,6 +123,17 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
+        this.stacks = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+
+        if (!this.checkLootAndRead(compound))
+        {
+            ItemStackHelper.loadAllItems(compound, this.stacks);
+        }
+
+        if (compound.hasKey("CustomName", 8))
+        {
+            this.customName = compound.getString("CustomName");
+        }
 
         if (compound.hasKey("item"))
             storedItem = new ItemStack(compound.getCompoundTag("item"));
@@ -138,6 +150,16 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
+
+        if (!this.checkLootAndWrite(compound))
+        {
+            ItemStackHelper.saveAllItems(compound, this.stacks);
+        }
+
+        if (this.hasCustomName())
+        {
+            compound.setString("CustomName", this.customName);
+        }
 
         if (storedItem != null)
         {
@@ -184,6 +206,7 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
         return 64;
     }
 
+    @Override
     public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
     {
         this.fillWithLoot(playerIn);

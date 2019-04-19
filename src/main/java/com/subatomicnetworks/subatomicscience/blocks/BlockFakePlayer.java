@@ -1,16 +1,17 @@
 package com.subatomicnetworks.subatomicscience.blocks;
 
 import com.subatomicnetworks.subatomicscience.Reference;
+import com.subatomicnetworks.subatomicscience.guis.GUIFakePlayer;
 import com.subatomicnetworks.subatomicscience.init.SSTabs;
 import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
 import com.subatomicnetworks.subatomicscience.tiles.TileFakePlayer;
 import com.subatomicnetworks.subatomicscience.util.IToolTipBuilder;
 import com.subatomicnetworks.subatomicscience.util.IToolTipProvider;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -52,6 +53,10 @@ public class BlockFakePlayer extends BlockContainer implements ITileEntityProvid
 
             tile.setStoredItem(player.getHeldItem(hand).copy());
         }
+
+        //TODO: Here's your new gui Matt!
+        //Isn't working anymore :/ ???
+        Minecraft.getMinecraft().displayGuiScreen(new GUIFakePlayer(player.inventory, (TileFakePlayer)world.getTileEntity(pos)));
 
         return true;
     }
