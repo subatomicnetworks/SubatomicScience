@@ -2,12 +2,14 @@ package com.subatomicnetworks.subatomicscience.proxy;
 
 import com.subatomicnetworks.subatomicscience.SubatomicScience;
 import com.subatomicnetworks.subatomicscience.compat.CompatHandler;
+import com.subatomicnetworks.subatomicscience.handlers.GuiHandler;
 import com.subatomicnetworks.subatomicscience.init.SSBlocks;
 import com.subatomicnetworks.subatomicscience.init.SSItems;
 import com.subatomicnetworks.subatomicscience.init.SSTiles;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class CommonProxy implements IProxy {
 
@@ -18,6 +20,7 @@ public class CommonProxy implements IProxy {
         SSBlocks.initBlocks();
         SSItems.initItems();
         SSTiles.initTiles();
+        NetworkRegistry.INSTANCE.registerGuiHandler(SubatomicScience.instance, new GuiHandler());
 
         CompatHandler.registerCompat();
     }

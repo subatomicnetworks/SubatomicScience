@@ -38,10 +38,19 @@ public class ContainerFakePlayer extends Container {
     /**
      * Determines whether supplied player can use this container
      */
+    @Override
     public boolean canInteractWith(EntityPlayer playerIn)
     {
         return this.fakePlayerInventory.isUsableByPlayer(playerIn);
     }
+
+    @Override
+    public void onContainerClosed(EntityPlayer playerIn)
+    {
+        super.onContainerClosed(playerIn);
+        fakePlayerInventory.closeInventory(playerIn);
+    }
+
 
     /**
      * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player

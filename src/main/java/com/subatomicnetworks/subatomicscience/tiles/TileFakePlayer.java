@@ -7,13 +7,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerDispenser;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
@@ -25,8 +23,9 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
 {
 
     private EntityFakePlayer player;
-    private float pitch;
-    private float yaw;
+    public float pitch = 0;
+    public float yaw = 0;
+    public int selectedSlot = 0;
     private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
 
     public String getName()
@@ -50,6 +49,11 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
         }
 
         return true;
+    }
+
+    public boolean isUsableByPlayer(EntityPlayer player)
+    {
+        return player.getDistanceSq(pos.add(0.5f, 0.5f, 0.5f)) <= 64;
     }
 
     // TODO: Have an actual inventory and GUI instead of a copy of an item that you right click onto the block.
@@ -139,11 +143,15 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
             storedItem = new ItemStack(compound.getCompoundTag("item"));
         else
             storedItem = null;
+        //if (compound.hasKey("selectedSlot"))
+        selectedSlot = compound.getInteger("selectedSlot");
 
-        if (compound.hasKey("pitch"))
-            pitch = compound.getFloat("pitch");
-        if (compound.hasKey("yaw"))
-            yaw = compound.getFloat("yaw");
+        System.out.println("Reading NBT. Slot is "+compound.getInteger("selectedSlot"));
+
+        //if (compound.hasKey("pitch"))
+        pitch = compound.getFloat("pitch");
+        //if (compound.hasKey("yaw"))
+        yaw = compound.getFloat("yaw");
     }
 
     @Override
@@ -168,6 +176,9 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
             compound.setTag("item", item);
         }
 
+        System.out.println("Writing slot to NBT as "+selectedSlot);
+
+        compound.setInteger("selectedSlot",selectedSlot);
         compound.setFloat("pitch", pitch);
         compound.setFloat("yaw", yaw);
 
@@ -218,6 +229,17 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
         return Reference.MOD_ID + ":fake_player";
     }
 
+    public void setSelectedSlot(int i){
+        selectedSlot=i;
+        System.out.println("Setting slot to "+i);
+        this.updateState();
+    }
+
+    public float getSelectedSlot()
+    {
+        return selectedSlot;
+    }
+
     public void setPitch(float pitch)
     {
         this.pitch = pitch;
@@ -239,5 +261,4 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
     {
         return yaw;
     }
-
 }

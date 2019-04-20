@@ -1,7 +1,8 @@
 package com.subatomicnetworks.subatomicscience.blocks;
 
 import com.subatomicnetworks.subatomicscience.Reference;
-import com.subatomicnetworks.subatomicscience.guis.GUIFakePlayer;
+import com.subatomicnetworks.subatomicscience.SubatomicScience;
+import com.subatomicnetworks.subatomicscience.guis.GuiFakePlayer;
 import com.subatomicnetworks.subatomicscience.init.SSTabs;
 import com.subatomicnetworks.subatomicscience.registry.SSRegistry;
 import com.subatomicnetworks.subatomicscience.tiles.TileFakePlayer;
@@ -56,7 +57,10 @@ public class BlockFakePlayer extends BlockContainer implements ITileEntityProvid
 
         //TODO: Here's your new gui Matt!
         //Isn't working anymore :/ ???
-        Minecraft.getMinecraft().displayGuiScreen(new GUIFakePlayer(player.inventory, (TileFakePlayer)world.getTileEntity(pos)));
+        //player.displayGUIChest((TileFakePlayer)world.getTileEntity(pos));
+
+        //Minecraft.getMinecraft().displayGuiScreen(new GuiFakePlayer(player.inventory, (TileFakePlayer)world.getTileEntity(pos)));
+        player.openGui(SubatomicScience.instance, Reference.GUI_FAKE_PLAYER, world, pos.getX(), pos.getY(), pos.getZ());
 
         return true;
     }

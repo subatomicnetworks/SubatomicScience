@@ -16,7 +16,7 @@ public class SubatomicScience {
     public static SSLogger logger;
 
     @Instance
-    public SubatomicScience instance;
+    public static SubatomicScience instance;
 
     @SidedProxy(clientSide = "com.subatomicnetworks.subatomicscience.proxy.ClientProxy", serverSide = "com.subatomicnetworks.subatomicscience.proxy.ServerProxy")
     public static IProxy proxy;

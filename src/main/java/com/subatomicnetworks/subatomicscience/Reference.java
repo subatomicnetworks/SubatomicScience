@@ -6,6 +6,7 @@ public final class Reference {
     public static final String VERSION = "%VERSION%";
 
     public static final String PREFIX = Reference.MOD_ID + ":";
+    public static final int GUI_FAKE_PLAYER = 1;
 
     private Reference() {
     }
