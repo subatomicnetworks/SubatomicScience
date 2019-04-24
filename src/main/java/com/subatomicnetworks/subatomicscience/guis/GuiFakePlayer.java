@@ -10,6 +10,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiFakePlayer extends GuiContainer {
@@ -41,18 +42,23 @@ public class GuiFakePlayer extends GuiContainer {
         this.buttonList.add(new GuiButton(BUTTON_SLIDER_1, x+12+Math.round(((TileFakePlayer)fakePlayerInventory).yaw), y+4,8,20,""));
         this.buttonList.add(new GuiButton(BUTTON_SLIDER_2, x+12+Math.round(((TileFakePlayer)fakePlayerInventory).pitch), y+62,8,20,""));
 
-        System.out.println(((TileFakePlayer)fakePlayerInventory).selectedSlot);
+        TileEntity tileEntity = playerInventory.player.world.getTileEntity(((TileFakePlayer) fakePlayerInventory).getPos());
 
-        for(int i=0; i<((TileFakePlayer)fakePlayerInventory).selectedSlot;i++){
-            slotx+=18;
-            if(i==4||i==7){
-                slotx=62;
+        System.out.println(((TileFakePlayer)tileEntity).getSelectedSlot());
+
+        if (tileEntity instanceof TileFakePlayer)
+        {
+            for(int i=0; i<((TileFakePlayer)tileEntity).getSelectedSlot();i++){
+                slotx+=18;
+                if(i==4||i==7){
+                    slotx=62;
+                }
             }
-        }
-        if(((TileFakePlayer)fakePlayerInventory).selectedSlot>3){
-            sloty+=18;
-            if(((TileFakePlayer)fakePlayerInventory).selectedSlot>6){
+            if(((TileFakePlayer)fakePlayerInventory).selectedSlot>3){
                 sloty+=18;
+                if(((TileFakePlayer)fakePlayerInventory).selectedSlot>6){
+                    sloty+=18;
+                }
             }
         }
     }
@@ -99,13 +105,23 @@ public class GuiFakePlayer extends GuiContainer {
 
     @Override
     protected  void handleMouseClick(Slot slotIn, int slotId, int mouseButton, ClickType type){
-        if(mouseButton==2&&slotId<9){
-            ((TileFakePlayer)fakePlayerInventory).setSelectedSlot(slotId+1);
-            System.out.println(((TileFakePlayer)fakePlayerInventory).getPos().getX());
-            slotx=slotIn.xPos;
-            sloty=slotIn.yPos;
+        try{
+            super.handleMouseClick(slotIn,slotId,mouseButton,type);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        super.handleMouseClick(slotIn,slotId,mouseButton,type);
+
+        TileEntity tileEntity = playerInventory.player.world.getTileEntity(((TileEntity) fakePlayerInventory).getPos());
+
+        if (tileEntity instanceof TileFakePlayer)
+        {
+            if(mouseButton==2&&slotId<9){
+                ((TileFakePlayer)tileEntity).setSelectedSlot(slotId+1);
+                System.out.println(((TileFakePlayer)tileEntity).getSelectedSlot());
+                slotx=slotIn.xPos;
+                sloty=slotIn.yPos;
+            }
+        }
     }
 
     @Override

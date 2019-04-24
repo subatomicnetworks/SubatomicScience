@@ -55,11 +55,7 @@ public class BlockFakePlayer extends BlockContainer implements ITileEntityProvid
             tile.setStoredItem(player.getHeldItem(hand).copy());
         }
 
-        //TODO: Here's your new gui Matt!
-        //Isn't working anymore :/ ???
-        //player.displayGUIChest((TileFakePlayer)world.getTileEntity(pos));
-
-        //Minecraft.getMinecraft().displayGuiScreen(new GuiFakePlayer(player.inventory, (TileFakePlayer)world.getTileEntity(pos)));
+        // TODO: Here's your new Gui Matt!
         player.openGui(SubatomicScience.instance, Reference.GUI_FAKE_PLAYER, world, pos.getX(), pos.getY(), pos.getZ());
 
         return true;

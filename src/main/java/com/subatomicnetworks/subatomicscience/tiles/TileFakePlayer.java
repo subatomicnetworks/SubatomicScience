@@ -146,8 +146,6 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
         //if (compound.hasKey("selectedSlot"))
         selectedSlot = compound.getInteger("selectedSlot");
 
-        System.out.println("Reading NBT. Slot is "+compound.getInteger("selectedSlot"));
-
         //if (compound.hasKey("pitch"))
         pitch = compound.getFloat("pitch");
         //if (compound.hasKey("yaw"))
@@ -176,7 +174,7 @@ public class TileFakePlayer extends TileEntityLockableLoot implements ITickable
             compound.setTag("item", item);
         }
 
-        System.out.println("Writing slot to NBT as "+selectedSlot);
+        //System.out.println("Writing slot to NBT as "+selectedSlot);
 
         compound.setInteger("selectedSlot",selectedSlot);
         compound.setFloat("pitch", pitch);
